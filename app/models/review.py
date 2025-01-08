@@ -12,8 +12,21 @@ class Review(db.Model):
   motorcycle_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('motorcycles.id')), nullable=False)
   review_text = db.Column(db.Text, nullable=False)
   stars = db.Column(db.Integer, nullable=False)
-  created_at = db.Column(db.DateTime, server_default=func.current_timestamp(), nullable=False)
-  updated_at = db.Column(db.DateTime, server_default=func.current_timestamp(), onupdate=func.current_timestamp(), nullable=False)
+  created_at = db.Column(db.DateTime, server_default=func.now(), nullable=False)
+  updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
 
   user = db.relationship('User', back_populates='reviews')
   motorcycle = db.relationship('Motorcycle', back_populates='reviews')
+
+  def to_dict(self):
+     return {
+      'id': self.id,
+      'user_id': self.user_id,
+      'motorcycle_id': self.motorcycle_id,
+      'review_text': self.review_text,
+      'stars': self.stars,
+      'created_at': self.created_at.isoformat(),
+      'updated_at': self.updated_at.isoformat(),
+      'user': self.user.to_dict(),
+      'motorcycle': self.motorcycle.to_dict()
+     }

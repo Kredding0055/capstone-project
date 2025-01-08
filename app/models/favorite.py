@@ -11,9 +11,19 @@ class Favorite(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
   motorcycle_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('motorcycles.id')), nullable=False)
-  created_at = db.Column(db.DateTime, server_default=func.current_timestamp(), nullable=False)
-  updated_at = db.Column(db.DateTime, server_default=func.current_timestamp(), onupdate=func.current_timestamp(), nullable=False)
+  created_at = db.Column(db.DateTime, server_default=func.now())
 
+  __table_args__ = (db.UniqueConstraint('user_id', 'motorcycle_id'),)
 
   user = db.relationship('User', back_populates='favorited_motorcycles')
   motorcycle = db.relationship('Motorcycle', back_populates='favorited_by')
+
+  def to_dict(self):
+    return {
+      'id': self.id,
+      'user_id': self.user_id,
+      'motorcycle_id': self.motorcycle_id,
+      'created_at': self.created_at.isoformat(),
+      'user': self.user.to_dict(),
+      'motorcycle': self.motorcycle.to_dict()
+    }

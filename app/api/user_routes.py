@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 from flask_login import login_required
-from app.models import User
+from app.models import db, User
 
 user_routes = Blueprint('users', __name__)
 
@@ -24,6 +24,25 @@ def user(id):
     user = User.query.get(id)
     return user.to_dict()
 
+@user_routes.route('/<int:id>', methods=['PUT'])
+@login_required
+def edit_user(id):
+    """
+    Edits a user's information
+    """
+    user = User.query.get(id)
+    
+    if not user:
+        return jsonify({'errors': {'message': 'Account not found'}}), 404
+
+    if user.id != current_user.id:
+        return jsonify({'errors': {'message': 'Unauthorized'}}), 403
+
+    data = request.get_json()
+    user.email = data.get('email', user.email)
+
+    db.session.commit()
+    return user.to_dict()
 
 @user_routes.route('/<int:id>', methods=['DELETE'])
 @login_required

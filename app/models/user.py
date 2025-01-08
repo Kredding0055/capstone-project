@@ -15,8 +15,8 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
-    created_at = db.Column(db.DateTime, server_default=func.current_timestamp(), nullable=False)
-    updated_at = db.Column(db.DateTime, server_default=func.current_timestamp(), onupdate=func.current_timestamp(), nullable=False)
+    created_at = db.Column(db.DateTime, server_default=func.now(), nullable=False)
+    updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
 
 
     motorcycles = db.relationship('Motorcycle', back_populates='owner', cascade='all, delete-orphan', lazy=True)
@@ -41,5 +41,11 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'first_name': self.first_name,
             'last_name': self.last_name,
-            'email': self.email
+            'email': self.email,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat(),
+            'motorcycles': [motorcycle.to_dict() for motorcycle in self.motorcycles],
+            'favorited_motorcycles': [motorcycle.to_dict() for motorcycle in self.favorited_motorcycles],
+            'shopping_carts': [cart.to_dict() for cart in self.shopping_carts],
+            'reviews': [review.to_dict() for review in self.reviews]
         }

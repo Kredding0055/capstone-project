@@ -13,3 +13,12 @@ class ShoppingCart(db.Model):
 
   user = db.relationship('User', back_populates='shopping_carts')
   motorcycle = db.relationship('Motorcycle', back_populates='shopping_carts')
+
+  def to_dict(self):
+    return {
+      'id': self.id,
+      'user_id': self.user_id,
+      'motorcycle_id': self.motorcycle_id,
+      'user': self.user.to_dict(),
+      'motorcycle': self.motorcycle.to_dict()
+    }
