@@ -84,7 +84,7 @@ def get_motorcycle_images(id):
   return jsonify([image.to_dict() for image in motorcycle.images]), 200
 
 # 3.2 POST /api/motorcycles/:id/images - Post a new image for a motorcycle
-@motorcycle_routes.route('<int:id>/imgages', methods=['POST'])
+@motorcycle_routes.route('<int:id>/images', methods=['POST'])
 @login_required
 def post_images(id):
   motorcycle = Motorcycle.query.get(id)

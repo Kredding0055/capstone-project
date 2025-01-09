@@ -47,4 +47,4 @@ def delete_favorite(id):
 
   db.session.delete(favorite)
   db.session.commit()
-  return jsonify({'message': 'Favorite deleted successfully'})
+  return jsonify({'message': 'Favorite deleted successfully'}), 200

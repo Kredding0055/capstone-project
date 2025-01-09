@@ -15,15 +15,11 @@ class Favorite(db.Model):
 
   __table_args__ = (db.UniqueConstraint('user_id', 'motorcycle_id'),)
 
-  user = db.relationship('User', back_populates='favorited_motorcycles')
-  motorcycle = db.relationship('Motorcycle', back_populates='favorited_by')
 
   def to_dict(self):
     return {
       'id': self.id,
       'user_id': self.user_id,
       'motorcycle_id': self.motorcycle_id,
-      'created_at': self.created_at.isoformat(),
-      'user': self.user.to_dict(),
-      'motorcycle': self.motorcycle.to_dict()
+      'created_at': self.created_at.isoformat()
     }

@@ -20,7 +20,7 @@ class User(db.Model, UserMixin):
 
 
     motorcycles = db.relationship('Motorcycle', back_populates='owner', cascade='all, delete-orphan', lazy=True)
-    favorited_motorcycles = db.relationship('Motorcycle', secondary='favorites', cascade='all, delete-orphan', lazy=True)
+    favorited_motorcycles = db.relationship('Motorcycle', secondary='favorites', back_populates='favorited_by', cascade='all, delete', lazy=True)
     shopping_carts = db.relationship('ShoppingCart', back_populates='user', cascade='all, delete-orphan')
     reviews = db.relationship('Review', back_populates='user', cascade='all, delete-orphan')
 

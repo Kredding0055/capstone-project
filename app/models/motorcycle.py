@@ -23,8 +23,8 @@ class Motorcycle(db.Model):
 
 
   owner = db.relationship('User', back_populates='motorcycles', lazy=True)
-  images = db.relationship('MotorcycleImages', back_populates='motorcycle', cascade='all, delete-orphan', lazy=True)
-  favorited_by = db.relationship('User', secondary='favorites', cascade='all, delete-orphan', lazy=True)
+  images = db.relationship('MotorcycleImage', back_populates='motorcycle', cascade='all, delete-orphan', lazy=True)
+  favorited_by = db.relationship('User', secondary='favorites', back_populates='favorited_motorcycles', cascade='all, delete', lazy=True)
   shopping_carts = db.relationship('ShoppingCart', back_populates='motorcycle', cascade='all, delete-orphan')
   reviews = db.relationship('Review', back_populates='motorcycle', cascade='all, delete-orphan')
 

@@ -41,6 +41,8 @@ def update_review(id):
   review = Review.query.get(id)
   if review is None:
     return jsonify({'error': 'Review not found'}), 404
+  if review.user_id != current_user.id:
+    return jsonify({'error': 'Unauthorized'}), 403
 
   data = request.json
   review.review_text=data['review_text']
@@ -55,6 +57,8 @@ def delete_review(id):
   review = Review.query.get(id)
   if review is None:
     return jsonify({'error': 'Review not found'}), 404
+  if review.user_id != current_user.id:
+    return jsonify({'error': 'Unauthorized'}), 403
 
   db.session.delete(review)
   db.session.commit()
