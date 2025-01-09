@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 import os
 environment = os.getenv("FLASK_ENV")
-SCHEMA = os.environ.get("SCHEMA"
+SCHEMA = os.environ.get("SCHEMA")
 
 
 # revision identifiers, used by Alembic.
@@ -35,7 +35,7 @@ def upgrade():
     )
 
     if environment == "production":
-        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};"
+        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
 
     op.create_table('motorcycles',
     sa.Column('id', sa.Integer(), nullable=False),
