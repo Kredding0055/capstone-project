@@ -6,9 +6,19 @@ import {
 } from "redux";
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
+import motorcycleReducer from "./motorcycle";
+import motorcycleImageReducer from "./motorcycleImages";
+import favoritesReducer from "./favorite";
+import reviewsReducer from "./review";
+import shoppingCartReducer from "./shoppingCart";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
+  motorcycle: motorcycleReducer,
+  motorcycleImage: motorcycleImageReducer,
+  favorite: favoritesReducer,
+  review: reviewsReducer,
+  shoppingCart: shoppingCartReducer,
 });
 
 let enhancer;
