@@ -21,12 +21,13 @@ class Review(db.Model):
   def to_dict(self):
      return {
       'id': self.id,
-      'user_id': self.user_id,
       'motorcycle_id': self.motorcycle_id,
       'review_text': self.review_text,
       'stars': self.stars,
       'created_at': self.created_at.isoformat(),
       'updated_at': self.updated_at.isoformat(),
-      'user': self.user.to_dict(),
-      'motorcycle': self.motorcycle.to_dict()
+      # 'user': self.user.to_dict(),
+      # 'motorcycle': self.motorcycle.to_dict()
+      'user': {'id': self.user.id, 'first_name': self.user.first_name, 'last_name': self.user.last_name},
+      # 'motorcycle': {'id': self.motorcycle.id, 'year': self.motorcycle.year, 'make': self.motorcycle.make, 'model': self.motorcycle.model}
      }

@@ -5,7 +5,7 @@ from app.models import db, Motorcycle, MotorcycleImage
 motorcycle_routes = Blueprint('motorcycles', __name__)
 
 # 1.1 GET /api/motorcycles – Get All Motorcycles
-@motorcycle_routes.route('/', methods=['GET'])
+@motorcycle_routes.route('', methods=['GET'])
 def get_all_motorcycles():
   motorcycles = Motorcycle.query.all()
   return jsonify([motorcycle.to_dict() for motorcycle in motorcycles]), 200
@@ -19,7 +19,7 @@ def get_motorcycle_details(id):
   return jsonify(motorcycle.to_dict()), 200
 
 # 1.3 POST /api/motorcycles – Create a New Motorcycle
-@motorcycle_routes.route('/', methods=['POST'])
+@motorcycle_routes.route('', methods=['POST'])
 @login_required
 def create_motorcycle():
   data = request.json

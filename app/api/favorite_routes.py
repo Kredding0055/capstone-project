@@ -5,14 +5,14 @@ from app.models import db, Favorite, Motorcycle, MotorcycleImage
 favorite_routes = Blueprint('favorites', __name__)
 
 # 4.1 GET /api/favorites – Get Favorite Motorcycles
-@favorite_routes.route('/', methods=['GET'])
+@favorite_routes.route('', methods=['GET'])
 @login_required
 def get_favorites():
   favorites = Favorite.query.filter(Favorite.user_id == current_user.id).all()
   return jsonify([favorite.to_dict() for favorite in favorites])
 
 # 4.2 POST /api/favorites – Add a Favorite Motorcycle
-@favorite_routes.route('/', methods=['POST'])
+@favorite_routes.route('', methods=['POST'])
 @login_required
 def add_favorite():
   data = request.json

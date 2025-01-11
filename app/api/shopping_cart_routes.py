@@ -5,14 +5,14 @@ from app.models import db, ShoppingCart, Motorcycle, User
 shopping_cart_routes = Blueprint('cart', __name__)
 
 # 5.1 GET /api/cart – Get Shopping Cart Items
-@shopping_cart_routes.route('/', methods=['GET'])
+@shopping_cart_routes.route('', methods=['GET'])
 @login_required
 def get_cart():
   cart_items = ShoppingCart.query.filter(ShoppingCart.user_id == current_user.id).all()
   return jsonify([item.to_dict() for item in cart_items]), 200
 
 # 5.2 POST /api/cart – Add a Motorcycle to Cart
-@shopping_cart_routes.route('/', methods=['POST'])
+@shopping_cart_routes.route('', methods=['POST'])
 @login_required
 def add_to_cart():
   data = request.json

@@ -44,8 +44,8 @@ class User(db.Model, UserMixin):
             'email': self.email,
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat(),
-            'motorcycles': [motorcycle.to_dict() for motorcycle in self.motorcycles],
-            'favorited_motorcycles': [motorcycle.to_dict() for motorcycle in self.favorited_motorcycles],
+            'motorcycles': [motorcycle.id for motorcycle in self.motorcycles],
+            'favorited_motorcycles': [motorcycle.id for motorcycle in self.favorited_motorcycles],
             'shopping_carts': [cart.to_dict() for cart in self.shopping_carts],
             'reviews': [review.to_dict() for review in self.reviews]
         }

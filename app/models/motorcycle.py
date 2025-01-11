@@ -42,10 +42,8 @@ class Motorcycle(db.Model):
       'description': self.description,
       "created_at": self.created_at.isoformat(),
       "updated_at": self.updated_at.isoformat(),
-      'owner': self.owner.to_dict(),
       'images': [image.to_dict() for image in self.images],
-      'favorited_by': [user.to_dict() for user in self.favorited_by],
-      'shopping_carts': [cart.to_dict() for cart in self.shopping_carts],
+      'favorited_by': [user.id for user in self.favorited_by],
       'reviews': [review.to_dict() for review in self.reviews]
     }
 
