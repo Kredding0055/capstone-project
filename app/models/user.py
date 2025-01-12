@@ -44,6 +44,7 @@ class User(db.Model, UserMixin):
             'email': self.email,
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat(),
+            'member_since': member_since,
             'motorcycles': [motorcycle.id for motorcycle in self.motorcycles],
             'favorited_motorcycles': [motorcycle.id for motorcycle in self.favorited_motorcycles],
             'shopping_carts': [cart.to_dict() for cart in self.shopping_carts],

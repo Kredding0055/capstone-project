@@ -20,59 +20,59 @@ function CreateMotorcycle() {
   
 
   const handleSubmit = async (e) => {
-          e.preventDefault();
+    e.preventDefault();
   
-          const validationErrors = {};
+    const validationErrors = {};
   
-          if (!year) validationErrors.year = 'Year is required';
-          if (!make) validationErrors.make = 'Make is required';
-          if (!model) validationErrors.model = 'Model is required';
-          if (!color) validationErrors.model = 'Color is required';
-          if (!price) validationErrors.price = 'Price per day is required';
-          if (!miles) validationErrors.state = 'Miles is required';
-          if (!city) validationErrors.city = 'City is required';
-          if (!state) validationErrors.state = 'State is required';
-          if (!description || description.length < 30) validationErrors.description = 'Description needs 30 or more characters';
-          if (!photoUrls[0]) validationErrors.photoUrls = 'Preview Image URL is required';
+    if (!year) validationErrors.year = 'Year is required';
+    if (!make) validationErrors.make = 'Make is required';
+    if (!model) validationErrors.model = 'Model is required';
+    if (!color) validationErrors.model = 'Color is required';
+    if (!price) validationErrors.price = 'Price per day is required';
+    if (!miles) validationErrors.state = 'Miles is required';
+    if (!city) validationErrors.city = 'City is required';
+    if (!state) validationErrors.state = 'State is required';
+    if (!description || description.length < 30) validationErrors.description = 'Description needs 30 or more characters';
+    if (!photoUrls[0]) validationErrors.photoUrls = 'Preview Image URL is required';
   
-          setErrors(validationErrors);
+    setErrors(validationErrors);
   
-          if (Object.keys(validationErrors).length === 0) {
-          const motorcyclePayload = {
-              year,
-              make,
-              model,
-              color,
-              price,
-              miles,
-              city,
-              state,
-              description,
-              ownerId: sessionUser.id
-          }
-          
-          let motorcycle = await dispatch(createMotorcycleThunk(motorcyclePayload));
-  
-          if(motorcycle) {
-              navigate(`/motorcycles/${motorcycle.id}`)
-          }
-  
-          reset();
+    if (Object.keys(validationErrors).length === 0) {
+      const motorcyclePayload = {
+        year,
+        make,
+        model,
+        color,
+        price,
+        miles,
+        city,
+        state,
+        description,
+        ownerId: sessionUser.id
       }
+          
+    let motorcycle = await dispatch(createMotorcycleThunk(motorcyclePayload));
+  
+    if(motorcycle) {
+      navigate(`/motorcycles/${motorcycle.id}`)
+    }
+  
+    reset();
+    }
   }
   
-      const reset = () => {
-          setYear('');
-          setMake('');
-          setModel('');
-          setColor('');
-          setPrice('');
-          setMiles('');
-          setCity('');
-          setState('');
-          setDescription('');
-          setPhotoUrls([]);
-      }
+  const reset = () => {
+    setYear('');
+    setMake('');
+    setModel('');
+    setColor('');
+    setPrice('');
+    setMiles('');
+    setCity('');
+    setState('');
+    setDescription('');
+    setPhotoUrls([]);
+  }
 
   return (
     <div>

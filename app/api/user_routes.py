@@ -44,14 +44,3 @@ def edit_user(id):
     db.session.commit()
     return user.to_dict()
 
-@user_routes.route('/<int:id>', methods=['DELETE'])
-@login_required
-def delete_user(id):
-    user = User.query.get(id)
-    
-    if user:
-        db.session.delete(user)
-        db.session.commit()
-        return jsonify({'message': 'User Deleted'})
-
-    return jsonify({'errors': {'message': 'User not found'}}), 404

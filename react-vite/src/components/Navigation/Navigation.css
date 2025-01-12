@@ -1,3 +1,28 @@
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: white;
+}
+
+.home-button {
+  display: block;
+  background-image: url('../../../public/weride_logo (1).ico');
+  height: 70px;
+  width: 70px;
+  background-size: cover;
+}
+
+.nav-bar > div > button {
+  height: 50px;
+  width: 50px;
+}
+
+
 .profile-dropdown {
   position: absolute;
+  right: 20px;
+  z-index: 1000;
 }
+
