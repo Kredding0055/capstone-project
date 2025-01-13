@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, send_from_directory
 from flask_login import login_required, current_user
 from app.models import db, Motorcycle, MotorcycleImage
 
@@ -74,6 +74,10 @@ def delete_motorcycle(id):
   db.session.delete(motorcycle)
   db.session.commit()
   return jsonify({'message': 'Motorcycle deleted successfully'}), 200
+
+@motorcycle_routes.route('/images/<path:path>')
+def serve_image(path):
+  return send_from_directory('react-vite/public/images', path)
 
 # 3.1 GET /api/motorcycles/:id/images - Get all Images for a motorcycle
 @motorcycle_routes.route('/<int:id>/images', methods=['GET'])

@@ -91,13 +91,13 @@ def seed_motorcycles():
     db.session.commit()
 
     images_data = [
-        MotorcycleImage(motorcycle_id=1, image_url='https://example.com/motorcycle1.jpg'),
+        MotorcycleImage(motorcycle_id=1, image_url='/images/cbr500r-red-cap.jpg'),
         MotorcycleImage(motorcycle_id=1, image_url='https://example.com/motorcycle1-2.jpg'),
-        MotorcycleImage(motorcycle_id=2, image_url='https://example.com/motorcycle2.jpg'),
-        MotorcycleImage(motorcycle_id=3, image_url='https://example.com/motorcycle3.jpg'),
-        MotorcycleImage(motorcycle_id=4, image_url='https://example.com/motorcycle4.jpg'),
-        MotorcycleImage(motorcycle_id=5, image_url='https://example.com/motorcycle5.jpg'),
-        MotorcycleImage(motorcycle_id=6, image_url='https://example.com/motorcycle6.jpg'),
+        MotorcycleImage(motorcycle_id=2, image_url='/images/r6-blue-cap.jpg'),
+        MotorcycleImage(motorcycle_id=3, image_url='/images/ninja-green.jpg'),
+        MotorcycleImage(motorcycle_id=4, image_url='/images/gsx-r750-white-red.jpg'),
+        MotorcycleImage(motorcycle_id=5, image_url='/images/panigale-v4-red.jpg'),
+        MotorcycleImage(motorcycle_id=6, image_url='/images/s1000rr-red.jpg'),
         MotorcycleImage(motorcycle_id=1, image_url='https://example.com/motorcycle1-3.jpg'),
         MotorcycleImage(motorcycle_id=2, image_url='https://example.com/motorcycle2-2.jpg'),
         MotorcycleImage(motorcycle_id=3, image_url='https://example.com/motorcycle3-2.jpg'),

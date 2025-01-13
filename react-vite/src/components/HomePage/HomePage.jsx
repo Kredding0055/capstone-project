@@ -15,11 +15,13 @@ function HomePage() {
   
   return (
     <div >
-      <div>
-        <h1>Inside the HomePage</h1>
+      <div className="image-grid">
         {motorcycles?.map((motorcycle) => (
           <div key={motorcycle.id}>
             <Link to={`motorcycles/${motorcycle.id}`}>
+            <div>
+              <img src={motorcycle.images[0].image_url} />
+            </div>
               <div>
                 <p>{motorcycle.year} {motorcycle.make} {motorcycle.model}</p>
                 <p>{motorcycle.city} {motorcycle.state}</p>

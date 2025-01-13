@@ -9,15 +9,15 @@
 .home-button {
   display: block;
   background-image: url('../../../public/weride_logo (1).ico');
-  height: 70px;
-  width: 70px;
+  height: 60px;
+  width: 60px;
   background-size: cover;
 }
 
-.nav-bar > div > button {
+/* .nav-bar > div > button {
   height: 50px;
   width: 50px;
-}
+} */
 
 
 .profile-dropdown {
