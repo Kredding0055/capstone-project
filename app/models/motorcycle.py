@@ -39,6 +39,7 @@ class Motorcycle(db.Model):
       'price': self.price,
       'miles': self.miles,
       'city': self.city,
+      'state': self.state,
       'description': self.description,
       "created_at": self.created_at.isoformat(),
       "updated_at": self.updated_at.isoformat(),

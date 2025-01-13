@@ -4,6 +4,7 @@
   align-items: center;
   padding: 1rem;
   background-color: white;
+  margin-bottom: 20px;
 }
 
 .home-button {
@@ -13,12 +14,6 @@
   width: 60px;
   background-size: cover;
 }
-
-/* .nav-bar > div > button {
-  height: 50px;
-  width: 50px;
-} */
-
 
 .profile-dropdown {
   position: absolute;

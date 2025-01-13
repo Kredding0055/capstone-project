@@ -8,6 +8,7 @@ function Navigation() {
       <div>
         <NavLink to="/" className='home-button'></NavLink>
       </div>
+      <h1>WeRide</h1>
       <div>
         <ProfileButton />
       </div>
