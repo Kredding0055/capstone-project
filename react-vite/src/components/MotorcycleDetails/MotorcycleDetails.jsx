@@ -1,7 +1,9 @@
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { motorcycleDetailsThunk } from '../../redux/motorcycle';
+import { motorcycleAverageRating } from '../HomePage/HomePage';
+import flatpickr from 'flatpickr';
 import './MotorcycleDetails.css';
 
 function MotorcycleDetails() {
@@ -9,25 +11,104 @@ function MotorcycleDetails() {
   const dispatch = useDispatch();
   const motorcycle = useSelector((state) => state.motorcycle[id])
   const reviews = useSelector((state) => state.motorcycle[id]?.reviews)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   console.log('motorcycle', motorcycle)
   console.log('reviews', reviews)
+
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const startDate = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
+  const endDate = `${tomorrow.getMonth() + 1}/${tomorrow.getDate()}/${tomorrow.getFullYear()}`;
+
+  const handleImageNav = (direction) => {
+    if (direction === "prev") {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex - 1 < 0 ? motorcycle.images.length - 1 : prevIndex - 1
+      );
+    } else if (direction === "next") {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex + 1 >= motorcycle.images.length ? 0 : prevIndex + 1
+      );
+    }
+  };
+
+  const numOfReviews = () => {
+    if(reviews?.length === 1) {
+      return (`${reviews.length} Review`)
+    }
+    if(reviews?.length > 1) {
+      return (`${reviews.length} Reviews`)
+    }
+  }
 
   useEffect(() => {
     dispatch(motorcycleDetailsThunk(id));
   }, [dispatch, id])
 
+  useEffect(() => {
+    if (motorcycle) {
+      flatpickr('#start-date', {
+        altInput: true,
+        altFormat: 'm/d/Y',
+        dateFormat: 'm/d/Y',
+        enableTime: false,
+        allowInput: true,
+        onChange: (selectedDates, dateStr) => {
+          setStartDate(dateStr);
+        }
+      });
+
+      flatpickr('#end-date', {
+        altInput: true,
+        altFormat: 'm/d/Y',
+        dateFormat: 'm/d/Y',
+        enableTime: false,
+        allowInput: true,
+        onChange: (selectedDates, dateStr) => {
+          setEndDate(dateStr);
+        }
+      });
+    }
+  }, [motorcycle])
+
   return (
     <div>
-      <h1>Inside Motorcycle Details Page</h1>
-      <div>
+      <div className='details-page-container'>
         {motorcycle && (
-          <div>
-            <div className='motorcycle-images'>
-              {motorcycle.images.length}
+          <div className='motorcycle-details-grid'>
+            <div className='image-container'>
+              <button
+                className="image-nav-button"
+                onClick={() => handleImageNav("prev")}
+              >
+                &#8592;
+              </button>
+                  {motorcycle.images
+                    .slice(currentImageIndex, currentImageIndex + 1)
+                    .map((image, index) => (
+                    <img key={index} src={image.image_url} alt={motorcycle.name} />
+                    ))}
+              <button
+                className="image-nav-button"
+                onClick={() => handleImageNav("next")}
+              >
+                &#8594;
+              </button>
+            </div>
+            <div className='date-picker-container'>
+              <label htmlFor="start-date">Start Date:</label>
+              <input type="text" id="start-date" name="start-date" value={startDate} />
+              <label htmlFor="end-date">End Date:</label>
+              <input type="text" id="end-date" name="end-date" value={endDate} />
+            </div>
+            <div>
               <p>{motorcycle.description}</p>
             </div>
             <div className='review-section'>
-              {` ${Number(reviews.reduce((sum, review) => sum + review.stars, 0) / reviews.length).toFixed(2)}`}
+              {numOfReviews()}
+              {motorcycleAverageRating(motorcycle)}
             </div>
             <div className='motorcycle-details'>
               <p>Year: {motorcycle.year}</p>
@@ -38,8 +119,8 @@ function MotorcycleDetails() {
             </div>
           </div>
         )}
+        </div>
       </div>
-    </div>
   )
 
 }

@@ -5,19 +5,19 @@ import { loadAllMotorcycles } from '../../redux/motorcycle';
 import { ImStarFull } from 'react-icons/im';
 import './HomePage.css';
 
+export const motorcycleAverageRating = (motorcycle) => {
+  if(!motorcycle.reviews || motorcycle.reviews.length === 0) {
+    return 'No reviews yet'
+  }
+  const sumOfStars = motorcycle.reviews.reduce((sum, review) => sum + review.stars, 0);
+  const averageRating = (sumOfStars/ motorcycle.reviews.length).toFixed(1)
+  return (<span style={{ fontSize: 18, color: 'white' }}> {averageRating} <ImStarFull /> </span>);
+}
+
 function HomePage() {
   const dispatch = useDispatch();
   const { motorcycles } = useSelector((state) => state.motorcycle)
   console.log('Motorcycles', motorcycles)
-  
-  const motorcycleAverageRating = (motorcycle) => {
-    if(!motorcycle.reviews || motorcycle.reviews.length === 0) {
-      return 'New'
-    }
-    const sumOfStars = motorcycle.reviews.reduce((sum, review) => sum + review.stars, 0);
-    const averageRating = (sumOfStars/ motorcycle.reviews.length).toFixed(1)
-    return (<span style={{ fontSize: 18, color: 'white' }}> {averageRating} <ImStarFull /> </span>);
-  }
 
   useEffect(() => {
     dispatch(loadAllMotorcycles())
