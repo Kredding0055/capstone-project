@@ -2,9 +2,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 1.5rem;
   background-color: white;
-  margin-bottom: 20px;
+  margin: 0 20px;
 }
 
 .home-button {
@@ -17,7 +17,23 @@
 
 .profile-dropdown {
   position: absolute;
-  right: 20px;
+  right: 30px;
+  background-color: white;
   z-index: 1000;
+  border: 2px solid black;
+  background-color: white;
+  width: 120px;
+  height: auto;
+  border-radius: 5px;
+  list-style: none;
+  padding: 10px;
+  margin: 0px;
+  font-size: 18px;
 }
 
+.inspiration-font {
+  font-family: 'Inspiration', serif;
+  margin: 0px;
+  font-size: 40px;
+  letter-spacing: 3px;
+}

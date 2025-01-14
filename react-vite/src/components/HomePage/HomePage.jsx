@@ -15,9 +15,8 @@ function HomePage() {
       return 'New'
     }
     const sumOfStars = motorcycle.reviews.reduce((sum, review) => sum + review.stars, 0);
-    const averageRating = (sumOfStars/ motorcycle.reviews.length).toFixed(2)
-    // return `${averageRating} <ImStarFull style={{ fontSize: 20 }}/>`;
-    return (<span> {averageRating} <ImStarFull style={{ fontSize: 20 }}/> </span>);
+    const averageRating = (sumOfStars/ motorcycle.reviews.length).toFixed(1)
+    return (<span style={{ fontSize: 18, color: 'white' }}> {averageRating} <ImStarFull /> </span>);
   }
 
   useEffect(() => {

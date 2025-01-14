@@ -43,7 +43,7 @@ function ProfileButton() {
 
   return (
     <>
-      <FaUserCircle onClick={toggleMenu} fontSize='40px'/>
+      <FaUserCircle onClick={toggleMenu} fontSize='50px'/>
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
