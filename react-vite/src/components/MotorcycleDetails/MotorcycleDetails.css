@@ -4,9 +4,25 @@
   padding: 70px 40px 0 40px;
 }
 
+.image-description-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.image-and-description {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+}
+
+.date-picker-container {
+  width: 40%;
+  padding: 20px;
+}
+
 .image-container {
   width: 700px;
-  height: 700px;
+  height: 600px;
   position: relative;
 }
 
@@ -17,20 +33,24 @@
 }
 
 .image-nav-button {
-  position: absolute; /* add this */
-  top: 50%; /* position the button vertically */
-  transform: translateY(-50%); /* adjust the button's position */
-  font-size: 30px; /* increase the font size */
-  color: white; /* change the button's color */
-  background-color: transparent; /* remove the button's background */
-  border: none; /* remove the button's border */
-  cursor: pointer; /* add a pointer cursor */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%); 
+  font-size: 30px; 
+  color: white; 
+  background-color: transparent; 
+  border: none;
+  cursor: pointer; 
 }
 
 .image-nav-button:first-child {
-  left: 0; /* position the left button */
+  left: 0; 
 }
 
 .image-nav-button:last-child {
-  right: 0; /* position the right button */
+  right: 0;
+}
+
+.description {
+  padding: 20px;
 }

@@ -77,35 +77,42 @@ function MotorcycleDetails() {
     <div>
       <div className='details-page-container'>
         {motorcycle && (
-          <div className='motorcycle-details-grid'>
-            <div className='image-container'>
-              <button
-                className="image-nav-button"
-                onClick={() => handleImageNav("prev")}
-              >
-                &#8592;
-              </button>
+          <div className='image-description-calendar'>
+            {/* <div className='image-and-description'> */}
+              <div className='image-container'>
+                <button
+                  className="image-nav-button"
+                  onClick={() => handleImageNav("prev")}
+                >
+                  &#8592;
+                </button>
                   {motorcycle.images
                     .slice(currentImageIndex, currentImageIndex + 1)
                     .map((image, index) => (
                     <img key={index} src={image.image_url} alt={motorcycle.name} />
-                    ))}
-              <button
-                className="image-nav-button"
-                onClick={() => handleImageNav("next")}
-              >
-                &#8594;
-              </button>
+                  ))}
+                <button
+                  className="image-nav-button"
+                  onClick={() => handleImageNav("next")}
+                >
+                  &#8594;
+                </button>
+              </div>
+              <div className="description">
+                <p>{motorcycle.description}</p>
+                <div className='review-section'>
+              {numOfReviews()}
+              {motorcycleAverageRating(motorcycle)}
             </div>
-            <div className='date-picker-container'>
-              <label htmlFor="start-date">Start Date:</label>
-              <input type="text" id="start-date" name="start-date" value={startDate} />
-              <label htmlFor="end-date">End Date:</label>
-              <input type="text" id="end-date" name="end-date" value={endDate} />
-            </div>
-            <div>
-              <p>{motorcycle.description}</p>
-            </div>
+            
+              </div>
+              <div className="calendar-container">
+              <div className='date-picker-container'>
+                <label htmlFor="start-date">Start Date:</label>
+                <input type="text" id="start-date" name="start-date" value={startDate} />
+                <label htmlFor="end-date">End Date:</label>
+                <input type="text" id="end-date" name="end-date" value={endDate} />
+              </div>
             <div className='review-section'>
               {numOfReviews()}
               {motorcycleAverageRating(motorcycle)}
@@ -118,11 +125,11 @@ function MotorcycleDetails() {
               <p>Miles: {motorcycle.miles}</p>
             </div>
           </div>
+          </div>
         )}
-        </div>
       </div>
+    </div>
   )
-
 }
 
 export default MotorcycleDetails;
