@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createMotorcycleThunk } from '../../redux/motorcycle';
+import { addMotorcyleImageThunk } from '../../redux/motorcycleImages.js';
 import states from './states.js';
 import './CreateMotorcycle.css';
 
@@ -18,8 +19,9 @@ function CreateMotorcycle() {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [description, setDescription] = useState('');
+  const [photoUrls, setPhotoUrls] = useState(['','','','','']);
   const [errors, setErrors] = useState({});
-  
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +37,7 @@ function CreateMotorcycle() {
     if (!city) validationErrors.city = 'City is required';
     if (!state) validationErrors.state = 'State is required';
     if (!description || description.length < 30) validationErrors.description = 'Description needs 30 or more characters';
-    // if (!photoUrls[0]) validationErrors.photoUrls = 'Preview Image URL is required';
+    if (!photoUrls[0]) validationErrors.photoUrls = 'Image URL is required';
   
     setErrors(validationErrors);
   
@@ -72,7 +74,7 @@ function CreateMotorcycle() {
     setCity('');
     setState('');
     setDescription('');
-    // setPhotoUrls([]);
+    setPhotoUrls([]);
   }
 
   return (
@@ -98,8 +100,8 @@ function CreateMotorcycle() {
             placeholder='Make'
           />
           {errors.make && <p className='error'>{errors.make}</p>}
-          </div>
-          <div className='form-group'>
+        </div>
+        <div className='form-group'>
           <label>Model</label>
           <input
             value={model}
@@ -108,8 +110,8 @@ function CreateMotorcycle() {
             placeholder='Model'
           />
           {errors.model && <p className='error'>{errors.model}</p>}
-          </div>
-          <div className='form-group'>
+        </div>
+        <div className='form-group'>
           <label>Color</label>
           <input 
             value={color}
@@ -118,8 +120,8 @@ function CreateMotorcycle() {
             placeholder='Color'
           />
           {errors.color && <p className='error'>{errors.color}</p>}
-          </div>
-          <div className='form-group'>
+        </div>
+        <div className='form-group'>
           <label>Price</label>
           <input 
             value={price}
@@ -128,8 +130,8 @@ function CreateMotorcycle() {
             placeholder='Price'
           />
           {errors.price && <p className='error'>{errors.price}</p>}
-          </div>
-          <div className='form-group'>
+        </div>
+        <div className='form-group'>
           <label>Miles</label>
           <input 
             value={miles}
@@ -138,8 +140,8 @@ function CreateMotorcycle() {
             placeholder='Miles'
           />
           {errors.miles && <p className='error'>{errors.miles}</p>}
-          </div>
-          <div className='form-group'>
+        </div>
+        <div className='form-group'>
           <label>City</label>
           <input 
             value={city}
@@ -148,8 +150,8 @@ function CreateMotorcycle() {
             placeholder='City'
           />
           {errors.city && <p className='error'>{errors.city}</p>}
-          </div>
-          <div className='form-group'>
+        </div>
+        <div className='form-group'>
           <label>State</label>
           <select 
             value={state}
@@ -163,8 +165,8 @@ function CreateMotorcycle() {
             ))}
           </select>
           {errors.state && <p className='error'>{errors.state}</p>}
-          </div>
-          <div className='form-group'>
+        </div>
+        <div className='form-group'>
           <label>Description</label>
           <textarea
             value={description}
@@ -173,8 +175,47 @@ function CreateMotorcycle() {
           />
           {errors.description && <p className='error'>{errors.description}</p>}
         </div>
-        <div>
-
+        
+        <div className='form-group'>
+          <label>Photos (Add atleast 1 photo)</label>
+          <input
+            type='url'
+            placeholder='Image URL'
+            value={photoUrls[0]}
+            onChange={(e) => addPhoto(e.target.value, 0)}
+            className="photo-input"
+          />
+          {errors.photoUrls && <p className='error'>{errors.photoUrls}</p>}
+          <input
+            type='url'
+            placeholder='Image URL'
+            value={photoUrls[1]}
+            onChange={(e) => addPhoto(e.target.value, 1)}
+            className="photo-input"
+          />
+          <input 
+            type='url'
+            placeholder='Image URL'
+            value={photoUrls[2]}
+            onChange={(e) => addPhoto(e.target.value, 2)}
+            className="photo-input"
+          />
+          <input
+            type='url'
+            placeholder='Image URL'
+            value={photoUrls[3]}
+            onChange={(e) => addPhoto(e.target.value, 3)}
+            className="photo-input"
+          />
+          <input
+            type='url'
+            placeholder='Image URL'
+            value={photoUrls[4]}
+            onChange={(e) => addPhoto(e.target.value, 4)}
+            className="photo-input"
+          />
+          <br/>
+          <br/>
         </div>
         <button type='submit'>Create Motorcycle</button>
       </form>
