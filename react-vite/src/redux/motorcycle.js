@@ -106,6 +106,14 @@ const motorcycleReducer = (state = initialState, action) => {
       newState[action.motorcycle.id] = action.motorcycle
       return newState
     }
+    case ADD_MOTORCYCLE: {
+      const newState = { ...state, [action.motorcycle.id]: action.motorcycle };
+      return newState;
+    }
+    case UPDATE_MOTORCYCLE: {
+      const newState = { ...state };
+      newState[action.motorcycle.id] = action.motorcycle
+    }
     case DELETE_MOTORCYCLE: {
       const newState = { ...state }
       delete newState[action.id]

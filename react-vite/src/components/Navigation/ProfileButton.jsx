@@ -7,6 +7,8 @@ import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import DeleteUserModal from "../DeleteUserModal/DeleteUserModal";
+import ManageMotorcycle from "../ManageMotorcycle/ManageMotorcycle";
+import { Link } from "react-router-dom";
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -51,6 +53,9 @@ function ProfileButton() {
               <li>Hello, {user.first_name}</li>
               <li>{user.email}</li>
               <li>Member since, {user.member_since}</li>
+              <li>
+                <Link to='/manageMotorcycle'>Manage Motorcycles</Link >
+              </li>
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>

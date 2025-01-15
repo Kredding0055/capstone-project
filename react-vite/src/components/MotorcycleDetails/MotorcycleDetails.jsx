@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { motorcycleDetailsThunk } from '../../redux/motorcycle';
 import { motorcycleAverageRating } from '../HomePage/HomePage';
+import Reviews from '../Reviews/Reviews';
 import flatpickr from 'flatpickr';
 import './MotorcycleDetails.css';
 
@@ -78,7 +79,7 @@ function MotorcycleDetails() {
       <div className='details-page-container'>
         {motorcycle && (
           <div className='image-description-calendar'>
-            {/* <div className='image-and-description'> */}
+            <div className='image-and-description'>
               <div className='image-container'>
                 <button
                   className="image-nav-button"
@@ -99,24 +100,34 @@ function MotorcycleDetails() {
                 </button>
               </div>
               <div className="description">
-                <p>{motorcycle.description}</p>
-                <div className='review-section'>
-              {numOfReviews()}
-              {motorcycleAverageRating(motorcycle)}
+                {motorcycle.description}
+              </div>
             </div>
             
-              </div>
-              <div className="calendar-container">
               <div className='date-picker-container'>
                 <label htmlFor="start-date">Start Date:</label>
                 <input type="text" id="start-date" name="start-date" value={startDate} />
                 <label htmlFor="end-date">End Date:</label>
                 <input type="text" id="end-date" name="end-date" value={endDate} />
+                <p>$ {motorcycle.price} per day</p>
+              <button>Add to Cart</button>
               </div>
+            
+          </div>
+        )}
+        {motorcycle && (
+          <div>
+            <div className='textarea-container'>
+              <textarea
+                placeholder='Leave a review'
+              />
+              <button className="submit-review-button">Submit Review</button>
+            </div>
             <div className='review-section'>
               {numOfReviews()}
               {motorcycleAverageRating(motorcycle)}
             </div>
+            <Reviews />
             <div className='motorcycle-details'>
               <p>Year: {motorcycle.year}</p>
               <p>Make: {motorcycle.make}</p>
@@ -124,7 +135,6 @@ function MotorcycleDetails() {
               <p>Color: {motorcycle.color}</p>
               <p>Miles: {motorcycle.miles}</p>
             </div>
-          </div>
           </div>
         )}
       </div>

@@ -1,10 +1,15 @@
+.nav-bar-wrapper {
+  background-color: white;
+  padding: 0 20px;
+}
+
 .nav-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
   background-color: white;
-  margin: 0 20px;
+  margin: 0 auto;
 }
 
 .home-button {
