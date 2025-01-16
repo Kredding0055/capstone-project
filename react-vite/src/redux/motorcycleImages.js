@@ -2,9 +2,10 @@ const GET_MOTORCYCLE_IMAGES = 'motorcycleImage/getMotorcycleImages';
 const ADD_MOTORCYCLE_IMAGE = 'motorcycleImage/addMotorcyleImage';
 const DELETE_MOTORCYCLE_IMAGE = 'motorcycleImage/deleteMotorcycleImage';
 
-const getMotorcycleImages = (motorcycleImages) => {
+const getMotorcycleImages = (id, motorcycleImages) => {
   return {
     type: GET_MOTORCYCLE_IMAGES,
+    id,
     motorcycleImages
   }
 }
@@ -28,7 +29,7 @@ export const loadMotorcycleImages = (id) => async (dispatch) => {
 
   if(response.ok) {
     const data = await response.json()
-    dispatch(getMotorcycleImages(data))
+    dispatch(getMotorcycleImages(id, data))
     return data
   }
 }
@@ -60,6 +61,13 @@ const initialState = {};
 
 const motorcycleImageReducer = (state = initialState, action) => {
   switch (action.type) {
+    case GET_MOTORCYCLE_IMAGES: {
+      return { ...state, [action.id]: action.motorcycleImages };
+    }
+    case ADD_MOTORCYCLE_IMAGE:
+      return { ...state, [action.motorcycleImage.motorcycle_id]: [...(state[action.motorcycleImage.motorcycle_id] || []), action.motorcycleImage] };
+    case DELETE_MOTORCYCLE_IMAGE:
+      return { ...state, [action.motorcycle_id]: state[action.motorcycle_id].filter(image => image.id !== action.id) };
     default:
       return state
   }

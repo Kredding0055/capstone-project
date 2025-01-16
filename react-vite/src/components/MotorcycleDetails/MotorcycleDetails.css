@@ -1,101 +1,3 @@
-/* .details-page-container {
-  background-color: black;
-  color: white;
-  padding: 70px 40px 0 40px;
-}
-
-.image-description-calendar {
-  display: flex;
-  flex-direction: row;
-}
-
-.image-and-description {
-  width: 65%;
-  display: flex;
-  flex-direction: column;
-}
-.image-container {
-  display: flex;
-  justify-content: center;
-}
-
-.image-wrapper {
-  position: relative;
-}
-
-.image-container img {
-  max-width: 1150px;
-  max-height: 750px;
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-}
-
-.image-nav-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%); 
-  font-size: 30px; 
-  color: white; 
-  background-color: transparent; 
-  border: none;
-  cursor: pointer; 
-}
-
-.image-nav-button:first-child {
-  left: 0; 
-  transform: translateY(-50%) translateX(-50%);
-}
-
-.image-nav-button:last-child {
-  right: 0;
-  transform: translateY(-50%) translateX(-50%);
-}
-
-.description {
-  min-height: 100px;
-  padding: 15px;
-  
-}
-
-.date-picker-container {
-  display: flex;
-  flex-direction: column;
-  width: 35%;
-  padding: 20px;
-  align-items: center;
-  max-height: 300px;
-}
-
-.date-picker-container input {
-  width: 250px;
-  font-size: 16px;
-  box-sizing: border-box;
-}
-
-.date-picker-container button {
-  width: 250px;
-}
-
-.textarea-container {
-  width: calc(65% - 31px);
-}
-
-textarea {
-  width: 100%;
-  height: 8vh;
-  resize: none;
-  font-size: 16px;
-}
-
-.submit-review-button {
-  font-size: 16px;
-}
-
-.submit-review-button:hover {
-  cursor: pointer;
-} */
-
 .details-page-container {
   background-color: black;
   color: white;
@@ -155,10 +57,15 @@ textarea {
   padding: 15px;
 }
 
+.calendar-and-details {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+}
+
 .date-picker-container {
   display: flex;
   flex-direction: column;
-  width: 35%;
   padding: 20px;
   align-items: center;
   max-height: 300px;
@@ -174,8 +81,15 @@ textarea {
   width: 250px;
 }
 
+.motorcycle-details {
+  padding: 20px;
+  color: #fff;
+  margin-top: 20px;
+  justify-items: center;
+}
+
 .textarea-container {
-  width: calc(65% - 31px);
+  width: 65%;
 }
 
 textarea {
@@ -183,6 +97,7 @@ textarea {
   height: 8vh;
   resize: none;
   font-size: 16px;
+  box-sizing: border-box;
 }
 
 .submit-review-button {

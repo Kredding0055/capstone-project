@@ -38,7 +38,6 @@ export const loadReviewsThunk = (id) => async (dispatch) => {
   if(response.ok) {
     const reviews = response.json()
     dispatch(loadReviews(reviews))
-    return reviews
   }
 }
 
@@ -82,6 +81,21 @@ const initialState = {}
 
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOAD_REVIEWS: {
+      return { ...state, reviews: action.reviews}
+    }
+    case ADD_REVIEW: {
+      if (!state[action.review.id]) {
+        return { ...state, [action.review.id]: action.review };
+      }
+      return state;
+    }
+    case UPDATE_REVIEW:{
+
+    }
+    case DELETE_REVIEW: {
+
+    }
     default:
       return state
   }

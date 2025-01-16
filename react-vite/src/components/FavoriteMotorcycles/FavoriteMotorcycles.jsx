@@ -23,10 +23,6 @@ function FavoriteMotorcycles() {
     })
   }
 
-  // useEffect(() => {
-  //   dispatch(loadFavorites())
-  // }, [dispatch])
-
   useEffect(() => {
     dispatch(loadFavorites())
     dispatch(loadAllMotorcycles())

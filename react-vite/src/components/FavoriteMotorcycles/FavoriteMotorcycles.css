@@ -1,3 +1,7 @@
+.favorites-page h1 {
+  justify-self: center;
+}
+
 .favorites-page {
   color: white;
 }
