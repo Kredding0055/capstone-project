@@ -7,18 +7,16 @@ import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import DeleteMotorcycleModal from './DeleteMotorcycleModal';
 import './ManageMotorcycle.css';
 
-
-
 function ManageMotorcycle() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { motorcycles } = useSelector((state) => state.motorcycle)
   const user = useSelector((state) => state.session.user.id)
-  console.log('motorcycles', motorcycles)
-  console.log('user', user)
+  // console.log('motorcycles', motorcycles)
+  // console.log('user', user)
 
   const userMotorcycles = motorcycles?.filter((motorcycle) => motorcycle.owner_id === user)
-  console.log('user motorcycles', userMotorcycles)
+  // console.log('user motorcycles', userMotorcycles)
 
   const handleEdit = (id) => {
     navigate(`/editMotorcycle/${id}`)

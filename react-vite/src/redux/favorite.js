@@ -34,11 +34,11 @@ export const loadFavorites = () => async (dispatch) => {
   }
 }
 
-export const addFavoriteThunk = (payload) => async (dispatch) => {
+export const addFavoriteThunk = (motorcycleId) => async (dispatch) => {
   const response = await fetch(`/api/favorites`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(payload)
+    body: JSON.stringify({ motorcycle_id: motorcycleId })
   })
   if(response.ok) {
     const favorite = await response.json()
@@ -61,6 +61,20 @@ const initialState = {}
 
 const favoritesReducer = (state = initialState, action) => {
   switch (action.type) {
+    case GET_FAVORITES: {
+      return { ...state, favorites: action.favorites}
+    }
+    case ADD_FAVORITE: {
+      if (!state[action.favorite.id]) {
+        return { ...state, [action.favorite.id]: action.favorite };
+      }
+      return state;
+    }
+    case DELETE_FAVORITE: {
+      const newState = { ...state }
+      delete newState[action.id]
+      return newState
+    }
     default:
       return state
   }

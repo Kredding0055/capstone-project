@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { motorcycleDetailsThunk } from '../../redux/motorcycle';
 import { motorcycleAverageRating } from '../HomePage/HomePage';
+import { addFavoriteThunk } from '../../redux/favorite';
 import Reviews from '../Reviews/Reviews';
 import flatpickr from 'flatpickr';
 import './MotorcycleDetails.css';
@@ -34,6 +35,13 @@ function MotorcycleDetails() {
       );
     }
   };
+
+  const addToFavorites = () => {
+    dispatch(addFavoriteThunk(motorcycle.id))
+      .then(() => {
+        alert('Motorcycle added to favorites!');
+      })
+  }
 
   const numOfReviews = () => {
     if(reviews?.length === 1) {
@@ -113,6 +121,7 @@ function MotorcycleDetails() {
                 <input type="text" id="end-date" name="end-date" value={endDate} />
                 <p>$ {motorcycle.price} per day</p>
               <button>Add to Cart</button>
+              <button onClick={addToFavorites}>Add to Favorites</button>
               </div>
             
           </div>

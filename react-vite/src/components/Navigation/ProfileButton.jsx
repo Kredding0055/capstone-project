@@ -52,9 +52,12 @@ function ProfileButton() {
             <>
               <li>Hello, {user.first_name}</li>
               <li>{user.email}</li>
-              <li>Member since, {user.member_since}</li>
+              <li>Member since {user.member_since}</li>
               <li>
-                <Link to='/manageMotorcycle'>Manage Motorcycles</Link >
+                <Link to='/manageMotorcycle'> - Manage Motorcycles</Link >
+              </li>
+              <li>
+                <Link to='/favorites'> - Favorited Motorcycles</Link>
               </li>
               <li>
                 <button onClick={logout}>Log Out</button>

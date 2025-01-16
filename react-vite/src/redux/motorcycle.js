@@ -124,4 +124,4 @@ const motorcycleReducer = (state = initialState, action) => {
   }
 }
 
-export default motorcycleReducer
+export default motorcycleReducer;
