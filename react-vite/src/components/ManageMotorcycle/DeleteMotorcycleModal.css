@@ -1,0 +1,27 @@
+.delete-modal-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 225px;
+  width: 400px;
+} 
+
+.delete-modal-container h1 {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.delete-modal-container button {
+  width: 250px;
+  height: 33px;
+  margin-top: 15px;
+  background-color: black;
+  color: white;
+  border: 0;
+  font-size: 14px;
+}
+
+.delete-modal-container button:hover {
+  cursor: pointer;
+}

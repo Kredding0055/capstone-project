@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { motorcycleDetailsThunk, updateMotorcycleThunk } from '../../redux/motorcycle';
 import { addMotorcyleImageThunk, deleteMotorcycleImageThunk } from '../../redux/motorcycleImages';
@@ -10,6 +10,8 @@ import './UpdateMotorcycle.css';
 function UpdateMotorcycle() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
+  const motorcycle = useSelector((state) => state.motorcycle?.[id])
   const [year, setYear] = useState('');
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
@@ -21,11 +23,26 @@ function UpdateMotorcycle() {
   const [description, setDescription] = useState('');
   const [photoUrls, setPhotoUrls] = useState(['','','','','']);
   const [errors, setErrors] = useState({});;
+  console.log('motorcycyle edit', motorcycle)
   
 
   useEffect(() => {
+    if(motorcycle) {
+    setYear(motorcycle.year)
+    setMake(motorcycle.make);
+    setModel(motorcycle.model);
+    setColor(motorcycle.color);
+    setPrice(motorcycle.price)
+    setMiles(motorcycle.miles);
+    setCity(motorcycle.city);
+    setState(motorcycle.state);
+    setDescription(motorcycle.description)
+    }    
+  }, [motorcycle])
+
+  useEffect(() => {
     dispatch(motorcycleDetailsThunk(id))
-  }, [dispatch])
+  }, [dispatch]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -222,7 +239,7 @@ function UpdateMotorcycle() {
           <br/>
           <br/>
         </div>
-        <button type='submit'>Create Motorcycle</button>
+        <button type='submit'>Update Motorcycle</button>
       </form>
     </main>
   )

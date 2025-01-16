@@ -12,7 +12,7 @@ def seed_motorcycles():
         price=95,
         miles=3500,
         city='San Francisco',
-        state='CA',
+        state='California',
         description='2022 Honda CBR500R with low miles.'
     )
 
@@ -25,7 +25,7 @@ def seed_motorcycles():
         price=145,
         miles=2500,
         city='Los Angeles',
-        state='CA',
+        state='California',
         description='2021 Yamaha R6 with very low miles.'
     )
 
@@ -38,7 +38,7 @@ def seed_motorcycles():
         price=70,
         miles=8200,
         city='San Diego',
-        state='CA',
+        state='California',
         description='2020 Kawasaki Ninja 400 with good condition.'
     )
 
@@ -51,7 +51,7 @@ def seed_motorcycles():
         price=125,
         miles=6600,
         city='San Jose',
-        state='CA',
+        state='California',
         description='2019 Suzuki GSX-R750 with average miles.'
     )
 
@@ -64,7 +64,7 @@ def seed_motorcycles():
         price=205,
         miles=1300,
         city='New York',
-        state='NY',
+        state='New York',
         description='2018 Ducati Panigale V4 with low miles.'
     )
 
@@ -77,7 +77,7 @@ def seed_motorcycles():
         price=175,
         miles=7300,
         city='Chicago',
-        state='IL',
+        state='Illinois',
         description='2017 BMW S1000RR with good condition.'
     )
 

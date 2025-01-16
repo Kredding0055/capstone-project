@@ -41,7 +41,7 @@ h2 {
   resize: none;
 }
 
-button {
+.form-group button {
   background-color: black;
   color: #fff;
   padding: 10px 20px;
@@ -52,6 +52,20 @@ button {
 
 .photo-input {
   margin-bottom: 20px;
+}
+
+.create-motorcycle-container button[type="submit"] {
+  width: 250px;
+  height: 33px;
+  margin-top: 15px;
+  background-color: black;
+  color: white;
+  border: 0;
+  font-size: 14px;
+}
+
+.create-motorcycle-container button[type="submit"]:hover {
+  cursor: pointer;
 }
 
 .error {

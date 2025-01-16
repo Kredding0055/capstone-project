@@ -81,6 +81,7 @@ function MotorcycleDetails() {
           <div className='image-description-calendar'>
             <div className='image-and-description'>
               <div className='image-container'>
+              <div className="image-wrapper">
                 <button
                   className="image-nav-button"
                   onClick={() => handleImageNav("prev")}
@@ -98,6 +99,7 @@ function MotorcycleDetails() {
                 >
                   &#8594;
                 </button>
+                </div>
               </div>
               <div className="description">
                 {motorcycle.description}
