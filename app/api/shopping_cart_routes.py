@@ -17,11 +17,19 @@ def get_cart():
 def add_to_cart():
   data = request.json
   motorcycle_id = data['motorcycle_id']
-  # cart_item = ShoppingCart(user_id=current_user.id, motorcycle_id=motorcycle_id)
+  start_date = data['start_date']
+  end_date = data['end_date']
+
+  cart_item = ShoppingCart.query.filter_by(user_id=current_user.id).first()
+
+  if cart_item:
+    db.session.delete(cart_item)
+    db.session.commit()
+
   cart_item = ShoppingCart(
     user_id=current_user.id, 
-    motorcycle_id=motorcycle_id, 
-    start_date=start_date, 
+    motorcycle_id=motorcycle_id,
+    start_date=start_date,
     end_date=end_date
   )
   db.session.add(cart_item)
@@ -34,8 +42,8 @@ def add_to_cart():
 @shopping_cart_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def update_cart(id):
-  cart_item = ShoppingCart.query.get(id)
-  if cart_item and cart_item.user_id == current_user.id:
+  cart_item = ShoppingCart.query.filter_by(user_id=current_user.id).first()
+  if cart_item:
     data = request.json
     cart_item.start_date = data['start_date']
     cart_item.end_date = data['end_date']
@@ -46,11 +54,11 @@ def update_cart(id):
 
 
 # 5.4 DELETE /api/cart/:id – Delete a Cart Item
-@shopping_cart_routes.route('/<int:id>', methods=['DELETE'])
+@shopping_cart_routes.route('', methods=['DELETE'])
 @login_required
-def delete_cart(id):
-  cart_item = ShoppingCart.query.get(id)
-  if cart_item and cart_item.user_id == current_user.id:
+def delete_cart():
+  cart_item = ShoppingCart.query.filter_by(user_id=current_user.id).first()
+  if cart_item:
     db.session.delete(cart_item)
     db.session.commit()
     return jsonify({'message': 'Item deleted successfully'}), 200

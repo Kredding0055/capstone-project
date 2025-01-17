@@ -10,24 +10,23 @@ const loadCart = (cart) => {
   }
 }
 
-const addToCart = (payload) => {
+const addToCart = (cartItem) => {
   return {
     type: ADD_TO_CART,
-    payload
+    payload: cartItem
   }
 }
 
-const updateCart = (payload) => {
+const updateCart = (cartItem) => {
   return {
     type: UPDATE_CART,
-    payload
+    payload: cartItem
   }
 }
 
-const deleteCart = (id) => {
+const deleteCart = () => {
   return {
-    type: DELETE_CART,
-    id
+    type: DELETE_CART
   }
 }
 
@@ -41,12 +40,12 @@ export const loadCartThunk = () => async (dispatch) => {
   }
 }
 
-export const addToCartThunk = (motorcycleId, dates) => async (dispatch) => {
-  // console.log('dates', dates)
+export const addToCartThunk = (payload) => async (dispatch) => {
+  console.log('payload', payload)
   const response = await fetch(`/api/cart`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ motorcycle_id: motorcycleId, ...dates })
+    body: JSON.stringify(payload)
   })
   if(response.ok) {
     const data = await response.json()
@@ -68,12 +67,12 @@ export const updateCartThunk = (id, payload) => async (dispatch) => {
   }
 }
 
-export const deleteCartThunk = (id) => async (dispatch) => {
-  const response = await fetch(`/api/cart/${id}`, {
+export const deleteCartThunk = () => async (dispatch) => {
+  const response = await fetch(`/api/cart`, {
     method: 'DELETE'
   })
   if(response.ok) {
-    dispatch(deleteCart(id))
+    dispatch(deleteCart())
   }
 }
 
@@ -83,16 +82,32 @@ const initialState = {}
 const shoppingCartReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_CART:
-      return { ...state, ...action.cart };
+      return { ...action.cart[0] };
     case ADD_TO_CART:
-      return { ...state, ...action.payload };
+      return {  ...action.payload };
     case UPDATE_CART:
-      return { ...state, ...action.payload };
+      return { ...action.payload };
     case DELETE_CART:
-      return {};  
+      return { };
     default:
-      return state
+      return state;
   }
-}
+};
+
+// const shoppingCartReducer = (state = initialState, action) => {
+//   switch (action.type) {
+//     case LOAD_CART:
+//       return { ...state, ...action.cart };
+//     case ADD_TO_CART:
+//       const newState = { ...state, [action.cart.id]: action.payload};
+//       return newState;
+//     case UPDATE_CART:
+//       return { ...state, ...action.payload };
+//     case DELETE_CART:
+//       return {};  
+//     default:
+//       return state
+//   }
+// }
 
 export default shoppingCartReducer;

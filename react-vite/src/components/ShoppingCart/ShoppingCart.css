@@ -1,3 +1,27 @@
 .shopping-cart-container {
   color: white;
+  margin: 70px 70px 0px;
+}
+
+.cart-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.cart-image-container {
+  flex-basis: 30%;
+}
+
+.cart-image-container img {
+  max-width: 400px;
+  max-height: 300px;
+}
+
+.cart-details {
+  flex-basis: 40%;
+}
+
+.cart-checkout {
+  flex-basis: 30%;
 }

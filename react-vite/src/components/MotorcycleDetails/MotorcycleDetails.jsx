@@ -26,8 +26,8 @@ function MotorcycleDetails() {
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
 
-  const startDate = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
-  const endDate = `${tomorrow.getMonth() + 1}/${tomorrow.getDate()}/${tomorrow.getFullYear()}`;
+  const start_date = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
+  const end_date = `${tomorrow.getMonth() + 1}/${tomorrow.getDate()}/${tomorrow.getFullYear()}`;
 
   const handleImageNav = (direction) => {
     if (direction === "prev") {
@@ -53,9 +53,12 @@ function MotorcycleDetails() {
   }
 
   const addToCart = () => {
-    // console.log('startDate:', startDate);
-    // console.log('endDate:', endDate);
-    dispatch(addToCartThunk(motorcycle.id, { start_date: startDate, end_date: endDate }))
+    const cart_item = {
+      motorcycle_id: motorcycle.id,
+      start_date: document.getElementById('start-date').value,
+      end_date: document.getElementById('end-date').value
+    }
+    dispatch(addToCartThunk(cart_item))
   }
 
   const numOfReviews = () => {
@@ -132,9 +135,9 @@ function MotorcycleDetails() {
             <div className='calendar-and-details'>
               <div className='date-picker-container'>
                 <label htmlFor="start-date">Start Date:</label>
-                <input type="text" id="start-date" name="start-date" value={startDate} />
+                <input type="text" id="start-date" name="start-date" value={start_date} />
                 <label htmlFor="end-date">End Date:</label>
-                <input type="text" id="end-date" name="end-date" value={endDate} />
+                <input type="text" id="end-date" name="end-date" value={end_date} />
                 <p>$ {motorcycle.price} per day</p>
               <button onClick={addToCart}>Add to Cart</button>
               <button onClick={addToFavorites}>Add to Favorites</button>

@@ -23,6 +23,5 @@ class ShoppingCart(db.Model):
       'end_date': self.end_date,
       'user_id': self.user_id,
       'motorcycle_id': self.motorcycle_id,
-      'user': self.user.to_dict(),
       'motorcycle': self.motorcycle.to_dict()
     }
