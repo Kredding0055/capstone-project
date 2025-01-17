@@ -7,7 +7,6 @@ import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import DeleteUserModal from "../DeleteUserModal/DeleteUserModal";
-import ManageMotorcycle from "../ManageMotorcycle/ManageMotorcycle";
 import { Link } from "react-router-dom";
 
 function ProfileButton() {
@@ -45,7 +44,7 @@ function ProfileButton() {
 
   return (
     <>
-      <FaUserCircle onClick={toggleMenu} fontSize='50px'/>
+      <FaUserCircle className="profile-button" onClick={toggleMenu} fontSize='50px'/>
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (

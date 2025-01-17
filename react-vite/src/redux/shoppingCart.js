@@ -41,11 +41,12 @@ export const loadCartThunk = () => async (dispatch) => {
   }
 }
 
-export const addToCartThunk = () => async (dispatch) => {
+export const addToCartThunk = (motorcycleId, dates) => async (dispatch) => {
+  // console.log('dates', dates)
   const response = await fetch(`/api/cart`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify()
+    body: JSON.stringify({ motorcycle_id: motorcycleId, ...dates })
   })
   if(response.ok) {
     const data = await response.json()
@@ -81,6 +82,14 @@ const initialState = {}
 
 const shoppingCartReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOAD_CART:
+      return { ...state, ...action.cart };
+    case ADD_TO_CART:
+      return { ...state, ...action.payload };
+    case UPDATE_CART:
+      return { ...state, ...action.payload };
+    case DELETE_CART:
+      return {};  
     default:
       return state
   }

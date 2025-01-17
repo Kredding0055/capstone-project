@@ -36,7 +36,7 @@ export const loadReviewsThunk = (id) => async (dispatch) => {
   const response = await fetch(`/api/motorcycles/${id}/reviews`)
 
   if(response.ok) {
-    const reviews = response.json()
+    const reviews = await response.json()
     dispatch(loadReviews(reviews))
   }
 }
@@ -85,16 +85,24 @@ const reviewsReducer = (state = initialState, action) => {
       return { ...state, reviews: action.reviews}
     }
     case ADD_REVIEW: {
-      if (!state[action.review.id]) {
-        return { ...state, [action.review.id]: action.review };
+      if (!state.reviews) {
+        return { ...state, reviews: [action.review] };
+      }
+      return { ...state, reviews: [...state.reviews, action.review] };
+    }
+    case UPDATE_REVIEW: {
+      if (state.reviews) {
+        const updatedReviews = state.reviews.map(review => review.id === action.review.id ? action.review : review);
+        return { ...state, reviews: updatedReviews };
       }
       return state;
     }
-    case UPDATE_REVIEW:{
-
-    }
     case DELETE_REVIEW: {
-
+      if (state.reviews) {
+        const filteredReviews = state.reviews.filter(review => review.id !== action.id);
+        return { ...state, reviews: filteredReviews };
+      }
+      return state;
     }
     default:
       return state

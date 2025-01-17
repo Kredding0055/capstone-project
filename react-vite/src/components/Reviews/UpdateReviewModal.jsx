@@ -7,10 +7,8 @@ import './UpdateReviewModal.css';
 
 
 function UpdateReviewModal({ review }) {
-  console.log('Review prop:', review);
   const dispatch = useDispatch();
   const [currReview, setCurrReview] = useState(review.review_text);
-  // const [currReview, setCurrReview] = useState(review.reviewext ? review.reviewText : '');
   const [starRating, setStarRating] = useState(review.stars);
   const [hover, setHover] = useState(0)
   const [submitDisabled, setSubmitDisabled] = useState(true);

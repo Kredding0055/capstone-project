@@ -113,11 +113,12 @@ const motorcycleReducer = (state = initialState, action) => {
     case UPDATE_MOTORCYCLE: {
       const newState = { ...state };
       newState[action.motorcycle.id] = action.motorcycle
+      return newState;
     }
     case DELETE_MOTORCYCLE: {
       const newState = { ...state }
       delete newState[action.id]
-      return newState
+      return newState;
     }
     default:
       return state

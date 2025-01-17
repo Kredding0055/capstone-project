@@ -17,7 +17,13 @@ def get_cart():
 def add_to_cart():
   data = request.json
   motorcycle_id = data['motorcycle_id']
-  cart_item = ShoppingCart(user_id=current_user.id, motorcycle_id=motorcycle_id)
+  # cart_item = ShoppingCart(user_id=current_user.id, motorcycle_id=motorcycle_id)
+  cart_item = ShoppingCart(
+    user_id=current_user.id, 
+    motorcycle_id=motorcycle_id, 
+    start_date=start_date, 
+    end_date=end_date
+  )
   db.session.add(cart_item)
   db.session.commit()
   return jsonify(cart_item.to_dict()), 201

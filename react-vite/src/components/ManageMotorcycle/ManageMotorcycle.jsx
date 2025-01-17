@@ -12,10 +12,9 @@ function ManageMotorcycle() {
   const navigate = useNavigate();
   const { motorcycles } = useSelector((state) => state.motorcycle)
   const user = useSelector((state) => state.session.user.id)
+  const userMotorcycles = motorcycles?.filter((motorcycle) => motorcycle.owner_id === user)
   // console.log('motorcycles', motorcycles)
   // console.log('user', user)
-
-  const userMotorcycles = motorcycles?.filter((motorcycle) => motorcycle.owner_id === user)
   // console.log('user motorcycles', userMotorcycles)
 
   const handleEdit = (id) => {

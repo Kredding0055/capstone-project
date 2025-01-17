@@ -78,7 +78,10 @@
 }
 
 .date-picker-container button {
-  width: 250px;
+  width: 150px;
+  height: 30px;
+  margin: 15px 0;
+  font-size: 16px;
 }
 
 .motorcycle-details {

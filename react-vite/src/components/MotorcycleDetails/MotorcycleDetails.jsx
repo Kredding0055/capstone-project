@@ -6,6 +6,7 @@ import { loadMotorcycleImages } from '../../redux/motorcycleImages';
 import { motorcycleAverageRating } from '../HomePage/HomePage';
 import { addFavoriteThunk } from '../../redux/favorite';
 import { createReview } from '../../redux/review';
+import { addToCartThunk } from '../../redux/shoppingCart';
 import Reviews from '../Reviews/Reviews';
 import flatpickr from 'flatpickr';
 import './MotorcycleDetails.css';
@@ -17,8 +18,8 @@ function MotorcycleDetails() {
   const motorcycleImages = useSelector((state) => state.motorcycleImage?.[id]);
   const reviews = useSelector((state) => state.motorcycle[id]?.reviews)
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  // console.log('motorcycle', motorcycle)
-  console.log('reviews', reviews)
+  console.log('motorcycle', motorcycle)
+  // console.log('reviews', reviews)
   // console.log('MotorcycleImages', motorcycleImages)
 
   const today = new Date();
@@ -47,6 +48,16 @@ function MotorcycleDetails() {
       })
   }
 
+  const addReview = () => {
+    dispatch(createReview())
+  }
+
+  const addToCart = () => {
+    // console.log('startDate:', startDate);
+    // console.log('endDate:', endDate);
+    dispatch(addToCartThunk(motorcycle.id, { start_date: startDate, end_date: endDate }))
+  }
+
   const numOfReviews = () => {
     if(reviews?.length === 1) {
       return (`${reviews.length} Review`)
@@ -54,10 +65,6 @@ function MotorcycleDetails() {
     if(reviews?.length > 1) {
       return (`${reviews.length} Reviews`)
     }
-  }
-
-  const addReview = () => {
-    dispatch(createReview())
   }
 
   useEffect(() => {
@@ -129,7 +136,7 @@ function MotorcycleDetails() {
                 <label htmlFor="end-date">End Date:</label>
                 <input type="text" id="end-date" name="end-date" value={endDate} />
                 <p>$ {motorcycle.price} per day</p>
-              <button>Add to Cart</button>
+              <button onClick={addToCart}>Add to Cart</button>
               <button onClick={addToFavorites}>Add to Favorites</button>
               </div>
               <div className='motorcycle-details'>

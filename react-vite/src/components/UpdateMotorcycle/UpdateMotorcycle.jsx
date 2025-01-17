@@ -22,7 +22,7 @@ function UpdateMotorcycle() {
   const [state, setState] = useState('');
   const [description, setDescription] = useState('');
   const [photoUrls, setPhotoUrls] = useState(['','','','','']);
-  const [errors, setErrors] = useState({});;
+  const [errors, setErrors] = useState({});
   console.log('motorcycyle edit', motorcycle)
   
 
@@ -42,7 +42,7 @@ function UpdateMotorcycle() {
 
   useEffect(() => {
     dispatch(motorcycleDetailsThunk(id))
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

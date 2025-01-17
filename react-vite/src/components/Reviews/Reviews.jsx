@@ -1,15 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
-import UpdateReviewModal from "../UpdateReviewModal/UpdateReviewModal";
+import UpdateReviewModal from "./UpdateReviewModal";
+import DeleteReviewModal from "./DeleteReviewModal";
 
 
 function Reviews({reviews}) {
   const dispatch = useDispatch();
-
-  const deleteReview = (reviewId) => {
-    dispatch(deleteReviewThunk(reviewId))
-  }
+  const sessionUser = useSelector(state => state.session.user);  
 
   return (
     <div>
@@ -19,17 +17,28 @@ function Reviews({reviews}) {
             <p>{review.review_text}</p>
             <p>Rating: {review.stars}</p>
             <p>Posted by: {review.user.first_name}</p>
-            {review && (
-              <OpenModalButton
-              buttonText='Update Review'
-              modalComponent={<UpdateReviewModal review={review} />}
-              />
+            {sessionUser && sessionUser.id === review.user.id ? (
+              <>
+                {review && (
+                  <OpenModalButton
+                    buttonText='Update Review'
+                    modalComponent={<UpdateReviewModal review={review} />}
+                  />
+                )}
+                {review && (
+                  <OpenModalButton
+                    buttonText='Delete Review'
+                    modalComponent={<DeleteReviewModal review={review} />}
+                  />
+                )}
+              </>
+            ) : (
+              <></>
             )}
-            <button onClick={() => deleteReview(review.id)}>Delete</button>
           </div>
         ))
       ) : (
-        <p>No reviews yet.</p>
+        null
       )}
     </div>
   );
