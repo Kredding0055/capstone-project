@@ -8,7 +8,6 @@ import { addFavoriteThunk } from '../../redux/favorite';
 import { createReview } from '../../redux/review';
 import { addToCartThunk } from '../../redux/shoppingCart';
 import Reviews from '../Reviews/Reviews';
-import flatpickr from 'flatpickr';
 import './MotorcycleDetails.css';
 
 function MotorcycleDetails() {
@@ -18,16 +17,11 @@ function MotorcycleDetails() {
   const motorcycleImages = useSelector((state) => state.motorcycleImage?.[id]);
   const reviews = useSelector((state) => state.motorcycle[id]?.reviews)
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   console.log('motorcycle', motorcycle)
   // console.log('reviews', reviews)
   // console.log('MotorcycleImages', motorcycleImages)
-
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-
-  const start_date = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
-  const end_date = `${tomorrow.getMonth() + 1}/${tomorrow.getDate()}/${tomorrow.getFullYear()}`;
 
   const handleImageNav = (direction) => {
     if (direction === "prev") {
@@ -55,11 +49,12 @@ function MotorcycleDetails() {
   const addToCart = () => {
     const cart_item = {
       motorcycle_id: motorcycle.id,
-      start_date: document.getElementById('start-date').value,
-      end_date: document.getElementById('end-date').value
+      start_date: startDate,
+      end_date: endDate
     }
     dispatch(addToCartThunk(cart_item))
   }
+  
 
   const numOfReviews = () => {
     if(reviews?.length === 1) {
@@ -73,30 +68,6 @@ function MotorcycleDetails() {
   useEffect(() => {
     dispatch(motorcycleDetailsThunk(id));
     dispatch(loadMotorcycleImages(id));
-  
-    if (motorcycle) {
-      flatpickr('#start-date', {
-        altInput: true,
-        altFormat: 'm/d/Y',
-        dateFormat: 'm/d/Y',
-        enableTime: false,
-        allowInput: true,
-        onChange: (selectedDates, dateStr) => {
-          setStartDate(dateStr);
-        }
-      });
-
-      flatpickr('#end-date', {
-        altInput: true,
-        altFormat: 'm/d/Y',
-        dateFormat: 'm/d/Y',
-        enableTime: false,
-        allowInput: true,
-        onChange: (selectedDates, dateStr) => {
-          setEndDate(dateStr);
-        }
-      });
-    }
   }, [id, dispatch])
 
   return (
@@ -134,10 +105,11 @@ function MotorcycleDetails() {
             </div>
             <div className='calendar-and-details'>
               <div className='date-picker-container'>
-                <label htmlFor="start-date">Start Date:</label>
-                <input type="text" id="start-date" name="start-date" value={start_date} />
-                <label htmlFor="end-date">End Date:</label>
-                <input type="text" id="end-date" name="end-date" value={end_date} />
+                <label>Start Date:</label>
+                <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+                <br />
+                <label>End Date:</label>
+                <input type="date" value={endDate} min={startDate} onChange={(e) => setEndDate(e.target.value)} />
                 <p>$ {motorcycle.price} per day</p>
               <button onClick={addToCart}>Add to Cart</button>
               <button onClick={addToFavorites}>Add to Favorites</button>

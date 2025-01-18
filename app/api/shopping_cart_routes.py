@@ -42,8 +42,8 @@ def add_to_cart():
 @shopping_cart_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def update_cart(id):
-  cart_item = ShoppingCart.query.filter_by(user_id=current_user.id).first()
-  if cart_item:
+  cart_item = ShoppingCart.query.get(id)
+  if cart_item and cart_item.user_id == current_user.id:
     data = request.json
     cart_item.start_date = data['start_date']
     cart_item.end_date = data['end_date']
