@@ -1,0 +1,44 @@
+.reviews-container {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 65%;
+  box-sizing: border-box;
+}
+
+.review {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.review-text {
+  font-size: 16px;
+  color: #333;
+}
+
+.review-rating {
+  font-size: 14px;
+  color: #666;
+}
+
+.review-author {
+  font-size: 14px;
+  color: #666;
+}
+
+.review-buttons {
+  margin-top: 10px;
+}
+
+.review-buttons button {
+  margin-right: 10px;
+  font-size: 14px;
+  background-color: white;
+}
+
+.review-buttons button:hover {
+  cursor: pointer;
+}

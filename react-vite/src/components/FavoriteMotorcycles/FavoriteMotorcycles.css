@@ -5,3 +5,19 @@
 .favorites-page {
   color: white;
 }
+
+.remove-favorite-button {
+  text-align: center;
+}
+
+.remove-favorite-button button {
+  font-size: 16px;
+  background-color: white;
+  margin: 10px;
+  height: 30px;
+  width: 200px;
+}
+
+.remove-favorite-button button:hover {
+  cursor: pointer;
+}

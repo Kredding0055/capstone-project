@@ -5,9 +5,10 @@ import { motorcycleDetailsThunk } from '../../redux/motorcycle';
 import { loadMotorcycleImages } from '../../redux/motorcycleImages';
 import { motorcycleAverageRating } from '../HomePage/HomePage';
 import { addFavoriteThunk } from '../../redux/favorite';
-import { createReview } from '../../redux/review';
+import { loadReviewsThunk, createReview } from '../../redux/review';
 import { addToCartThunk } from '../../redux/shoppingCart';
 import Reviews from '../Reviews/Reviews';
+import { ImStarEmpty, ImStarFull } from 'react-icons/im';
 import './MotorcycleDetails.css';
 
 function MotorcycleDetails() {
@@ -15,12 +16,17 @@ function MotorcycleDetails() {
   const dispatch = useDispatch();
   const motorcycle = useSelector((state) => state.motorcycle[id])
   const motorcycleImages = useSelector((state) => state.motorcycleImage?.[id]);
-  const reviews = useSelector((state) => state.motorcycle[id]?.reviews)
+  const reviews = useSelector((state) => state.review.reviews?.[id])
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  console.log('motorcycle', motorcycle)
-  // console.log('reviews', reviews)
+  const today = new Date().toISOString().split('T')[0];
+  const [review, setReview] = useState('');
+  const [starRating, setStarRating] = useState(0);
+  const [hover, setHover] = useState(0)
+  const [submitDisabled, setSubmitDisabled] = useState(true);
+  // console.log('motorcycle', motorcycle)
+  console.log('reviews', reviews)
   // console.log('MotorcycleImages', motorcycleImages)
 
   const handleImageNav = (direction) => {
@@ -43,7 +49,16 @@ function MotorcycleDetails() {
   }
 
   const addReview = () => {
-    dispatch(createReview())
+    console.log('addReview')
+    const reviewPayload = {
+      review_text: review,
+      stars: starRating
+    }
+    dispatch(createReview(id, reviewPayload))
+      .then(() => {
+      setReview('')
+      setStarRating(0)
+      })
   }
 
   const addToCart = () => {
@@ -54,7 +69,23 @@ function MotorcycleDetails() {
     }
     dispatch(addToCartThunk(cart_item))
   }
-  
+
+  const starFilled = (num) => {
+    setStarRating(num);
+  }
+
+  const handleHover = (num) => {
+    setHover(num);
+  }
+
+  useEffect(() => {
+    if(starRating > 0 && review.length >= 10) {
+      setSubmitDisabled(false)
+    }
+    else {
+      setSubmitDisabled(true)
+    }
+  }, [starRating, review])
 
   const numOfReviews = () => {
     if(reviews?.length === 1) {
@@ -68,6 +99,7 @@ function MotorcycleDetails() {
   useEffect(() => {
     dispatch(motorcycleDetailsThunk(id));
     dispatch(loadMotorcycleImages(id));
+    dispatch(loadReviewsThunk(id))
   }, [id, dispatch])
 
   return (
@@ -106,13 +138,20 @@ function MotorcycleDetails() {
             <div className='calendar-and-details'>
               <div className='date-picker-container'>
                 <label>Start Date:</label>
-                <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+                <input type="date" value={startDate} min={today} onChange={(e) => setStartDate(e.target.value)} />
                 <br />
                 <label>End Date:</label>
-                <input type="date" value={endDate} min={startDate} onChange={(e) => setEndDate(e.target.value)} />
+                <input 
+                  type="date" 
+                  value={endDate} 
+                  min={startDate} 
+                  onChange={(e) => 
+                  setEndDate(e.target.value)} 
+                  disabled={!startDate}
+                  />
                 <p>$ {motorcycle.price} per day</p>
-              <button onClick={addToCart}>Add to Cart</button>
-              <button onClick={addToFavorites}>Add to Favorites</button>
+                <button onClick={addToCart}>Add to Cart</button>
+                <button onClick={addToFavorites}>Add to Favorites</button>
               </div>
               <div className='motorcycle-details'>
                 <h3>Motorcycle Details</h3>
@@ -130,12 +169,42 @@ function MotorcycleDetails() {
             <div className='textarea-container'>
               <textarea
                 placeholder='Leave a review'
+                value={review}
+                onChange={(e) => setReview(e.target.value)}
               />
-              <button className="submit-review-button" onClick={() => addReview}>Submit Review</button>
+              <br/>
+              <div className='details-star-section'>
+              {[1, 2, 3, 4, 5].map((index) => (
+                <div key={index}>
+                  {(starRating >= index || hover >= index) ? (
+                    <ImStarFull 
+                      className='details-star-rating' 
+                      onMouseEnter={() => handleHover(index)}
+                      onMouseLeave={() => handleHover(0)}
+                      onClick={() => starFilled(index)}
+                    />
+                  ) : (
+                    <ImStarEmpty 
+                      className='details-star-rating' 
+                      onMouseEnter={() => handleHover(index)}
+                      onMouseLeave={() => handleHover(0)}
+                      onClick={() => starFilled(index)}
+                    />
+                  )}
+                </div>
+              ))}
+            <h3>Stars</h3>       
+          </div>
+              <button 
+                className="submit-review-button" 
+                onClick={addReview}
+                disabled={submitDisabled}
+                >Submit Review</button>
             </div>
+            <br/>
             <div className='review-section'>
-              {numOfReviews()}
-              {motorcycleAverageRating(motorcycle)}
+              {numOfReviews()} &nbsp;
+              {motorcycleAverageRating(reviews)}
             </div>
             <Reviews reviews={reviews}/>
           </div>

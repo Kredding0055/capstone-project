@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import UpdateReviewModal from "./UpdateReviewModal";
 import DeleteReviewModal from "./DeleteReviewModal";
+import { ImStarFull } from "react-icons/im";
+import './Reviews.css';
 
 
 function Reviews({reviews}) {
@@ -10,15 +12,15 @@ function Reviews({reviews}) {
   const sessionUser = useSelector(state => state.session.user);  
 
   return (
-    <div>
+    <div className="reviews-container">
       {reviews && reviews.length > 0 ? (
         reviews.map((review) => (
-          <div key={review.id}>
+          <div key={review.id} className="review">
             <p>{review.review_text}</p>
-            <p>Rating: {review.stars}</p>
+            <p>Rating: {review.stars} <ImStarFull /></p>
             <p>Posted by: {review.user.first_name}</p>
             {sessionUser && sessionUser.id === review.user.id ? (
-              <>
+              <div className="review-buttons">
                 {review && (
                   <OpenModalButton
                     buttonText='Update Review'
@@ -31,14 +33,14 @@ function Reviews({reviews}) {
                     modalComponent={<DeleteReviewModal review={review} />}
                   />
                 )}
-              </>
+              </div>
             ) : (
               <></>
             )}
           </div>
         ))
       ) : (
-        null
+        <p>No reviews yet</p>
       )}
     </div>
   );

@@ -43,9 +43,9 @@ class Motorcycle(db.Model):
       'description': self.description,
       "created_at": self.created_at.isoformat(),
       "updated_at": self.updated_at.isoformat(),
-      'images': [image.to_dict() for image in self.images],
-      'favorited_by': [user.id for user in self.favorited_by],
-      'reviews': [review.to_dict() for review in self.reviews]
+      # 'images': [image.to_dict() for image in self.images],
+      # 'favorited_by': [user.id for user in self.favorited_by],
+      # 'reviews': [review.to_dict() for review in self.reviews]
     }
 
 class MotorcycleImage(db.Model):

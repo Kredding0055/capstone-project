@@ -2,26 +2,53 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { loadAllMotorcycles } from '../../redux/motorcycle';
+import { loadMotorcycleImages } from '../../redux/motorcycleImages';
+import { loadReviewsThunk } from '../../redux/review';
 import { ImStarFull } from 'react-icons/im';
 import './HomePage.css';
 
-export const motorcycleAverageRating = (motorcycle) => {
-  if(!motorcycle.reviews || motorcycle.reviews.length === 0) {
-    return 'No reviews yet'
+export const motorcycleAverageRating = (reviews) => {
+  if (!reviews || reviews.length === 0) {
+    return 'No reviews yet';
   }
-  const sumOfStars = motorcycle.reviews.reduce((sum, review) => sum + review.stars, 0);
-  const averageRating = (sumOfStars/ motorcycle.reviews.length).toFixed(1)
-  return (<span style={{ fontSize: 18, color: 'white' }}> {averageRating} <ImStarFull /> </span>);
-}
+
+  if (!Array.isArray(reviews) || reviews.length === 0) {
+    return 'No reviews yet';
+  }
+
+  const sumOfStars = reviews.reduce((sum, review) => sum + review.stars, 0);
+  const averageRating = (sumOfStars / reviews.length).toFixed(1);
+
+  return (
+    <span style={{ fontSize: 18, color: 'white' }}>
+      {averageRating} <ImStarFull />
+    </span>
+  );
+};
+
 
 function HomePage() {
   const dispatch = useDispatch();
   const { motorcycles } = useSelector((state) => state.motorcycle)
-  console.log('Motorcycles', motorcycles)
+  const motorcycleImages = useSelector((state) => state.motorcycleImage)
+  const reviews = useSelector((state) => state.review.reviews)
+  // console.log('Motorcycles', motorcycles)
+  // console.log('Motorcycles Images', motorcycleImages)
+  // console.log('reviews', reviews)
 
   useEffect(() => {
-    dispatch(loadAllMotorcycles())
+    dispatch(loadAllMotorcycles());
   }, [dispatch])
+
+  useEffect(() => {
+    if (motorcycles) {
+      motorcycles.forEach((motorcycle) => {
+        dispatch(loadMotorcycleImages(motorcycle.id));
+        dispatch(loadReviewsThunk(motorcycle.id));
+      });
+    }
+  }, [dispatch, motorcycles])
+  
   
   return (
     <div>
@@ -30,7 +57,9 @@ function HomePage() {
           {motorcycles?.map((motorcycle) => (
             <Link key={motorcycle.id} to={`motorcycles/${motorcycle.id}`} className="motorcycle-card">
               <div className="motorcycle-image">
-                <img src={motorcycle.images[0].image_url} />
+                {motorcycleImages[motorcycle.id] && (
+                  <img src={motorcycleImages[motorcycle.id][0].image_url} />
+                )}
               </div>
               <div className='homepage-motorcycle-details'>
                 <div className='details-left'>
@@ -38,7 +67,7 @@ function HomePage() {
                   <p>{motorcycle.city} {motorcycle.state}</p>
                 </div>
                 <div className='details-right'>
-                  {motorcycleAverageRating(motorcycle)}                
+                  {motorcycleAverageRating(reviews && reviews[motorcycle.id] ? reviews[motorcycle.id] : [])}         
                   <p>${motorcycle.price} Per Day</p>
                 </div>
               </div>

@@ -54,7 +54,7 @@ export const addToCartThunk = (payload) => async (dispatch) => {
   }
 }
 
-export const updateCartThunk = (id, payload) => async (dispatch) => {
+export const updateCartThunk = (payload, id) => async (dispatch) => {
   const response = await fetch(`/api/cart/${id}`, {
     method: 'PUT',
     headers: {'Content-Type': 'application/json'},
@@ -93,21 +93,5 @@ const shoppingCartReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-// const shoppingCartReducer = (state = initialState, action) => {
-//   switch (action.type) {
-//     case LOAD_CART:
-//       return { ...state, ...action.cart };
-//     case ADD_TO_CART:
-//       const newState = { ...state, [action.cart.id]: action.payload};
-//       return newState;
-//     case UPDATE_CART:
-//       return { ...state, ...action.payload };
-//     case DELETE_CART:
-//       return {};  
-//     default:
-//       return state
-//   }
-// }
 
 export default shoppingCartReducer;

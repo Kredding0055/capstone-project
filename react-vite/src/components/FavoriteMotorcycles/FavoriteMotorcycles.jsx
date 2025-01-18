@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { loadFavorites } from "../../redux/favorite";
 import { loadAllMotorcycles } from "../../redux/motorcycle";
+import { loadMotorcycleImages } from "../../redux/motorcycleImages";
+import { loadReviewsThunk } from "../../redux/review";
 import { motorcycleAverageRating } from "../HomePage/HomePage";
 import { deleteFavoriteThunk } from "../../redux/favorite";
 import './FavoriteMotorcycles.css';
@@ -10,10 +12,9 @@ import './FavoriteMotorcycles.css';
 function FavoriteMotorcycles() {
   const dispatch = useDispatch();
   const motorcycles = useSelector((state) => state.motorcycle.motorcycles)
-  const favorites = useSelector((state) => state.favorite.favorites)
-
-  console.log('motorcycles', motorcycles)
-  console.log('favorites', favorites)
+  const favoriteMotorcycles = useSelector((state) => state.favorite.favorites)
+  const motorcycleImages = useSelector((state) => state.motorcycleImage);
+  const reviews = useSelector((state) => state.review.reviews)
 
 
   const removeFavorite = (id) => {
@@ -27,6 +28,15 @@ function FavoriteMotorcycles() {
     dispatch(loadFavorites())
     dispatch(loadAllMotorcycles())
   }, [dispatch]) 
+  
+  useEffect(() => {
+    if (favoriteMotorcycles) {
+      favoriteMotorcycles.forEach((motorcycle) => {
+        dispatch(loadMotorcycleImages(motorcycle.id));
+        dispatch(loadReviewsThunk(motorcycle.id))
+      });
+    }
+  }, [dispatch, favoriteMotorcycles]);
 
   if (!motorcycles) return <p>Loading...</p>;
 
@@ -35,8 +45,8 @@ function FavoriteMotorcycles() {
     <h1>Favorite Motorcycles</h1>
     <div className='grid-container'>
       <div className="motorcycle-card-grid">
-        {favorites && favorites.length > 0 ? (
-          favorites.map((favorite) => {
+        {favoriteMotorcycles && favoriteMotorcycles.length > 0 ? (
+          favoriteMotorcycles.map((favorite) => {
             const motorcycle = motorcycles.find((m) => m.id === favorite.motorcycle_id);
             if (!motorcycle) {
               console.error(`Motorcycle not found: ${favorite.motorcycle_id}`);
@@ -46,8 +56,8 @@ function FavoriteMotorcycles() {
               <div key={motorcycle.id} className="motorcycle-card">
                 <Link to={`/motorcycles/${motorcycle.id}`}>
                   <div className="motorcycle-image">
-                    {motorcycle.images && motorcycle.images.length > 0 ? (
-                      <img src={motorcycle.images[0].image_url} />
+                    {motorcycleImages[motorcycle.id] && motorcycleImages[motorcycle.id].length > 0 ? (
+                      <img src={motorcycleImages[motorcycle.id][0].image_url} />
                     ) : (
                       <p>No images available</p>
                     )}
@@ -60,12 +70,12 @@ function FavoriteMotorcycles() {
                       <p>{motorcycle.city} {motorcycle.state}</p>
                     </div>
                     <div className='manage-details-right'>
-                      {motorcycleAverageRating(motorcycle)} 
+                      {motorcycleAverageRating(reviews && reviews[motorcycle.id] ? reviews[motorcycle.id] : [])}   
                       <p>${motorcycle.price} Per Day</p>
                     </div>
                   </div>
-                  <div>
-                  <button onClick={() => removeFavorite(favorite.id)}>Remove from favorites</button>
+                  <div className="remove-favorite-button">
+                    <button onClick={() => removeFavorite(favorite.id)}>Remove from favorites</button>
                   </div>
                 </div>
               </div>

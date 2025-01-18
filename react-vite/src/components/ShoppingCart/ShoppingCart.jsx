@@ -1,7 +1,8 @@
 import { loadCartThunk, updateCartThunk, deleteCartThunk } from '../../redux/shoppingCart';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-
+import { Link } from 'react-router-dom';
+import { loadMotorcycleImages } from '../../redux/motorcycleImages';
 import './ShoppingCart.css';
 
 
@@ -10,11 +11,12 @@ function Shoppingcart() {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.shoppingCart)
   const motorcycle = useSelector((state) => state.shoppingCart.motorcycle)
+  const motorcycleImage = useSelector((state) => state.motorcycleImage)
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [showCalendar, setShowCalendar] = useState(false);
   const startDateFormat = new Date(startDate);
   const endDateFormat = new Date(endDate);
-  const [showCalendar, setShowCalendar] = useState(false);
   console.log('cart', cart)
   console.log('motorcycle', motorcycle)
 
@@ -34,7 +36,8 @@ function Shoppingcart() {
       start_date: startDate,
       end_date: endDate
     };
-    dispatch(updateCartThunk(updatedCartData))
+    dispatch(updateCartThunk(updatedCartData, cart.id))
+    setShowCalendar(false);
   }
 
   const deleteCart = () => {
@@ -68,14 +71,22 @@ function Shoppingcart() {
     dispatch(loadCartThunk())
   }, [dispatch])
 
+  useEffect(() => {
+      if (motorcycle) {
+        dispatch(loadMotorcycleImages(motorcycle.id));
+      }
+    }, [dispatch, motorcycle])
+
   return (
     <div className="shopping-cart-container">
       <div className="cart-row">
       <div className='cart-image-container'>
         {motorcycle && (
-        <>
-          <p><img src={motorcycle.images[0].image_url} alt="Motorcycle Image"/></p>
-        </>
+          <Link to={`/motorcycles/${motorcycle.id}`}>
+            {motorcycleImage[motorcycle.id] && (
+              <img src={motorcycleImage[motorcycle.id][0].image_url} />
+            )}
+          </Link>
         )}
       </div>
       <div className='cart-checkout'>
@@ -89,24 +100,29 @@ function Shoppingcart() {
           <p>Sales tax: $ {salesTax.toFixed(2)}</p>
           <p>Total: $ {total.toFixed(2)}</p>
           <div className="buttons-wrapper">
-          <button onClick={showAlert}>Book Reservation</button>
-          <button onClick={handleUpdateClick}>Update Cart</button>
-          <button onClick={deleteCart}>Delete Cart</button>
           </div>
-          {showCalendar && (
-            <div className="calendar-container">
-              <label>Start Date:</label>
-              <input type="date" value={startDate} onChange={handleCalendarChange} name="startDate" />
-              <br />
-              <label>End Date:</label>
-              <input type="date" value={endDate} onChange={handleCalendarChange} name="endDate" />
-              <button onClick={updateCart}>Save Changes</button>
-            </div>
-          )}
+          {showCalendar ? (
+              <div className="calendar-container">
+                <div className="calendar-column">
+                  <label>Start Date:</label>
+                  <input type="date" value={startDate} onChange={handleCalendarChange} name="startDate" />
+                  <br />
+                  <label>End Date:</label>
+                  <input type="date" value={endDate} onChange={handleCalendarChange} name="endDate" />
+                  <button className="save-button" onClick={updateCart}>Save Changes</button>
+                </div>
+              </div>
+            ) : (
+              <div className="buttons-wrapper">
+                <button onClick={showAlert}>Book Reservation</button>
+                <button onClick={handleUpdateClick}>Update Dates</button>
+                <button onClick={deleteCart}>Delete Cart</button>
+              </div>
+              )}
         </>
         )}
+          </div>
       </div>
-    </div>
     </div>
   )
 }

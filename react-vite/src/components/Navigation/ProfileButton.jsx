@@ -37,7 +37,7 @@ function ProfileButton() {
   const closeMenu = () => setShowMenu(false);
 
   const logout = (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     dispatch(thunkLogout());
     closeMenu();
   };
@@ -52,10 +52,13 @@ function ProfileButton() {
               <li>Hello, {user.first_name}</li>
               <li>{user.email}</li>
               <li>Member since {user.member_since}</li>
-              <li>
+              <li onClick={closeMenu}>
+                <Link to='/newMotorcycle'> - Add Motorcycle</Link>
+              </li>
+              <li onClick={closeMenu}>
                 <Link to='/manageMotorcycle'> - Manage Motorcycles</Link >
               </li>
-              <li>
+              <li onClick={closeMenu}>
                 <Link to='/favorites'> - Favorited Motorcycles</Link>
               </li>
               <li>
