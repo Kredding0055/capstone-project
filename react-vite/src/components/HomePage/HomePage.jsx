@@ -32,9 +32,6 @@ function HomePage() {
   const { motorcycles } = useSelector((state) => state.motorcycle)
   const motorcycleImages = useSelector((state) => state.motorcycleImage)
   const reviews = useSelector((state) => state.review.reviews)
-  // console.log('Motorcycles', motorcycles)
-  // console.log('Motorcycles Images', motorcycleImages)
-  // console.log('reviews', reviews)
 
   useEffect(() => {
     dispatch(loadAllMotorcycles());

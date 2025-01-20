@@ -41,7 +41,6 @@ export const loadCartThunk = () => async (dispatch) => {
 }
 
 export const addToCartThunk = (payload) => async (dispatch) => {
-  console.log('payload', payload)
   const response = await fetch(`/api/cart`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},

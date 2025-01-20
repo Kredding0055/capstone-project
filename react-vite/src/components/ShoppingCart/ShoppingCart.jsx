@@ -17,19 +17,12 @@ function Shoppingcart() {
   const [showCalendar, setShowCalendar] = useState(false);
   const startDateFormat = new Date(startDate);
   const endDateFormat = new Date(endDate);
-  console.log('cart', cart)
-  console.log('motorcycle', motorcycle)
 
   const rentalDays =  Math.round((endDateFormat - startDateFormat) / (1000 * 3600 * 24)) + 1;
   const subtotal = motorcycle?.price * rentalDays;
   const taxRate = 0.08;
   const salesTax = subtotal * taxRate;
   const total = subtotal + salesTax;
-
-  useEffect(() => {
-    console.log('startDate:', startDate);
-    console.log('endDate:', endDate);
-  }, [startDate, endDate]);
 
   const updateCart = () => {
     const updatedCartData = {

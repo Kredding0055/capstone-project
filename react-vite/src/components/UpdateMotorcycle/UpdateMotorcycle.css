@@ -1,4 +1,4 @@
-.update-motorcycle-container {
+/* .update-motorcycle-container {
   max-width: 600px;
   margin: auto;
   padding: 20px;
@@ -54,6 +54,23 @@ h2 {
   margin-bottom: 20px;
 }
 
+.photo-input-container {
+  display: flex;
+}
+
+.photo-input-container .image-remove-button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  font-size: 14px;
+  margin-left: 10px;
+  cursor: pointer;
+  height: 40px;
+}
+
+
+
 .update-motorcycle-container button[type="submit"] {
   width: 250px;
   height: 33px;
@@ -62,6 +79,130 @@ h2 {
   color: white;
   border: 0;
   font-size: 14px;
+  border-radius: 3px;
+}
+
+.update-motorcycle-container button[type="submit"]:hover {
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+} */
+.update-motorcycle-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-top: 70px;
+}
+
+h2 {
+  text-align: center;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.form-group textarea {
+  height: 100px;
+  resize: none;
+}
+
+.form-group button {
+  background-color: black;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.add-photos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.photo-input-container {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.current-photos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.current-photo {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.current-photo img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.current-photo button {
+  background-color: #ff0000;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.add-photos button[type="button"] {
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.update-motorcycle-container button[type="submit"] {
+  width: 250px;
+  height: 33px;
+  margin-top: 15px;
+  background-color: black;
+  color: white;
+  border: 0;
+  font-size: 14px;
+  border-radius: 3px;
 }
 
 .update-motorcycle-container button[type="submit"]:hover {

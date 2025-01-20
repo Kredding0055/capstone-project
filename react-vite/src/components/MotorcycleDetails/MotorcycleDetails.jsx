@@ -25,9 +25,6 @@ function MotorcycleDetails() {
   const [starRating, setStarRating] = useState(0);
   const [hover, setHover] = useState(0)
   const [submitDisabled, setSubmitDisabled] = useState(true);
-  // console.log('motorcycle', motorcycle)
-  console.log('reviews', reviews)
-  // console.log('MotorcycleImages', motorcycleImages)
 
   const handleImageNav = (direction) => {
     if (direction === "prev") {
@@ -49,7 +46,6 @@ function MotorcycleDetails() {
   }
 
   const addReview = () => {
-    console.log('addReview')
     const reviewPayload = {
       review_text: review,
       stars: starRating

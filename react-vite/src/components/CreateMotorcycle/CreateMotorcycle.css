@@ -73,6 +73,7 @@ h2 {
   color: white;
   border: 0;
   font-size: 14px;
+  border-radius: 3px;
 }
 
 .create-motorcycle-container button[type="submit"]:hover {

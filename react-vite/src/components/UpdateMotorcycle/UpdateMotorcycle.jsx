@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { motorcycleDetailsThunk, updateMotorcycleThunk } from '../../redux/motorcycle';
-import { addMotorcyleImageThunk, deleteMotorcycleImageThunk } from '../../redux/motorcycleImages';
+import { loadMotorcycleImages, addMotorcyleImageThunk, deleteMotorcycleImageThunk } from '../../redux/motorcycleImages';
 import states from '../CreateMotorcycle/states.js'
 import './UpdateMotorcycle.css';
 
@@ -12,6 +12,7 @@ function UpdateMotorcycle() {
   const navigate = useNavigate();
   const { id } = useParams();
   const motorcycle = useSelector((state) => state.motorcycle?.[id])
+  const motorcycleImages = useSelector((state) => state.motorcycleImage?.[id])
   const [year, setYear] = useState('');
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
@@ -21,10 +22,14 @@ function UpdateMotorcycle() {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [description, setDescription] = useState('');
-  const [photoUrls, setPhotoUrls] = useState(['','','','','']);
+  const [photoUrls, setPhotoUrls] = useState([]);
+  const [newPhotos, setNewPhotos] = useState([]);
   const [errors, setErrors] = useState({});
-  console.log('motorcycyle edit', motorcycle)
-  
+
+  useEffect(() => {
+    dispatch(motorcycleDetailsThunk(id))
+    dispatch(loadMotorcycleImages(id))
+  }, [dispatch, id]);
 
   useEffect(() => {
     if(motorcycle) {
@@ -37,28 +42,33 @@ function UpdateMotorcycle() {
     setCity(motorcycle.city);
     setState(motorcycle.state);
     setDescription(motorcycle.description)
-    }    
-  }, [motorcycle])
+    }
 
-  useEffect(() => {
-    dispatch(motorcycleDetailsThunk(id))
-  }, [dispatch, id]);
+    if (motorcycleImages) {
+      setPhotoUrls(motorcycleImages.map((image) => ({ id: image.id, url: image.image_url, file: null })))
+    }
+  }, [motorcycle, motorcycleImages])
+
+  const handleClickDeletePhoto = async (photoId) => {
+    await dispatch(deleteMotorcycleImageThunk(motorcycle.id, photoId));
+    setPhotoUrls((prevPhotoUrls) => prevPhotoUrls ? prevPhotoUrls.filter((photo) => photo.id !== photoId) : []);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
   
     const validationErrors = {};
   
-    if (!year) validationErrors.year = 'Year is required';
-    if (!make) validationErrors.make = 'Make is required';
-    if (!model) validationErrors.model = 'Model is required';
-    if (!color) validationErrors.color = 'Color is required';
-    if (!price) validationErrors.price = 'Price per day is required';
-    if (!miles) validationErrors.miles = 'Miles is required';
-    if (!city) validationErrors.city = 'City is required';
-    if (!state) validationErrors.state = 'State is required';
-    if (!description || description.length < 30) validationErrors.description = 'Description needs 30 or more characters';
-    if (!photoUrls[0]) validationErrors.photoUrls = 'Image URL is required';
+    if (!year) validationErrors.year = 'Please provide a year';
+    if (!make) validationErrors.make = 'Please provide a make';
+    if (!model) validationErrors.model = 'Please provide a model';
+    if (!color) validationErrors.color = 'Please provide a color';
+    if (!price) validationErrors.price = 'Please provide a price per day';
+    if (!miles) validationErrors.miles = 'Please provide miles';
+    if (!city) validationErrors.city = 'Please provide a city';
+    if (!state) validationErrors.state = 'Please select a state';
+    if (!description || description.length < 30) validationErrors.description = 'Please provide a description needs 30 or more characters';
+    if (!photoUrls[0]) validationErrors.photoUrls = 'Please provide at least 1 image';
   
     setErrors(validationErrors);
   
@@ -75,13 +85,13 @@ function UpdateMotorcycle() {
         description,
       }
           
-      let motorcycle = await dispatch(updateMotorcycleThunk(motorcyclePayload));
-  
-      if(motorcycle) {
-        navigate(`/motorcycles/${motorcycle.id}`)
-      }
-  
-      reset();
+    await dispatch(updateMotorcycleThunk(id, motorcyclePayload));
+
+    await dispatch(addMotorcyleImageThunk(id, newPhotos)).then(() => {
+      navigate(`/motorcycles/${id}`);
+    });
+
+    reset();
     }
   }
   
@@ -97,7 +107,43 @@ function UpdateMotorcycle() {
     setDescription('');
     setPhotoUrls([]);
   }
+  
+  
+  const handleRemoveNewPhoto = (index) => {
+    setNewPhotos((prevNewPhotos) => {
+      const newNewPhotos = [...prevNewPhotos];
+      newNewPhotos.splice(index, 1);
+      return newNewPhotos;
+    });
+  };
+  
+  const addNewPhoto = () => {
+    setNewPhotos((prevNewPhotos) => [...prevNewPhotos, { url: '', file: null }]);
+  };
 
+  const handleImageChange = (event, index, isNewPhoto) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (isNewPhoto) {
+        setNewPhotos((prevNewPhotos) => {
+          const newNewPhotos = [...prevNewPhotos];
+          newNewPhotos[index].url = reader.result;
+          newNewPhotos[index].file = file;
+          return newNewPhotos;
+        });
+      } else {
+        setPhotoUrls((prevPhotoUrls) => {
+          const newPhotoUrls = [...prevPhotoUrls];
+          newPhotoUrls[index].url = reader.result;
+          newPhotoUrls[index].file = file;
+          return newPhotoUrls;
+        });
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+  
 
   return (
     <main className='update-motorcycle-container'>
@@ -197,48 +243,45 @@ function UpdateMotorcycle() {
           />
           {errors.description && <p className='error'>{errors.description}</p>}
         </div>
-        
         <div className='form-group'>
-          <label>Photos (Add atleast 1 photo)</label>
-          <input
-            type='url'
-            placeholder='Image URL'
-            value={photoUrls[0]}
-            onChange={(e) => addPhoto(e.target.value, 0)}
-            className="photo-input"
-          />
+        <label>Photos (Add atleast 1 photo)</label>
+          <div className="current-photos">
+            {photoUrls.map((photo, index) => (
+              <div key={index} className="current-photo">
+                <img src={photo.url} alt="Current Photo" width="100" />
+                <button
+                  type='button'
+                  onClick={() => handleClickDeletePhoto(photo.id)}
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+          </div>
+          <div className="add-photos">
+  {newPhotos.map((photo, index) => (
+    <div key={index} className="photo-input-container">
+      <input
+        type='file'
+        onChange={(event) => handleImageChange(event, index, true)}
+      />
+      <button
+        type='button'
+        onClick={() => handleRemoveNewPhoto(index)}
+      >
+        Remove
+      </button>
+    </div>
+  ))}
+  <button
+    type='button'
+    onClick={addNewPhoto}
+  >
+    Add New Photo
+  </button>
+</div>
           {errors.photoUrls && <p className='error'>{errors.photoUrls}</p>}
-          <input
-            type='url'
-            placeholder='Image URL'
-            value={photoUrls[1]}
-            onChange={(e) => addPhoto(e.target.value, 1)}
-            className="photo-input"
-          />
-          <input 
-            type='url'
-            placeholder='Image URL'
-            value={photoUrls[2]}
-            onChange={(e) => addPhoto(e.target.value, 2)}
-            className="photo-input"
-          />
-          <input
-            type='url'
-            placeholder='Image URL'
-            value={photoUrls[3]}
-            onChange={(e) => addPhoto(e.target.value, 3)}
-            className="photo-input"
-          />
-          <input
-            type='url'
-            placeholder='Image URL'
-            value={photoUrls[4]}
-            onChange={(e) => addPhoto(e.target.value, 4)}
-            className="photo-input"
-          />
-          <br/>
-          <br/>
-        </div>
+          </div> 
         <button type='submit'>Update Motorcycle</button>
       </form>
     </main>

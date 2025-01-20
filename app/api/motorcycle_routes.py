@@ -97,24 +97,23 @@ def post_images(id):
   if motorcycle.owner_id != current_user.id:
     return jsonify({'error': 'Unauthorized'}), 403
   
-  # data = request.json
-  # new_image = MotorcycleImage(
-  #   motorcycle_id=id,
-  #   image_url=data['image_url']
-  # )
-  # db.session.add(new_image)
   data = request.json
+  new_images = []
   for image_data in data:
     new_image = MotorcycleImage(
       motorcycle_id=id,
       image_url=image_data['url']
     )
     db.session.add(new_image)
+    new_images.append(new_image)
   db.session.commit()
-  return jsonify(new_image.to_dict()), 201
+  if new_images:
+    return jsonify([image.to_dict() for image in new_images]), 201
+  else:
+    return jsonify({'message': 'No images added'}), 200
 
 # 3.3 DELETE /api/motorcycles/:id/images/:id - Delete an Image for a motorcycle
-@motorcycle_routes.route('/<int:motorcycle_id>/images/<int:image_id>')
+@motorcycle_routes.route('/<int:motorcycle_id>/images/<int:image_id>', methods=['DELETE'])
 @login_required
 def delete_image(motorcycle_id, image_id):
   motorcycle = Motorcycle.query.get(motorcycle_id)

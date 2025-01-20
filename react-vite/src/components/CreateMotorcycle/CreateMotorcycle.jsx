@@ -20,7 +20,6 @@ function CreateMotorcycle() {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [description, setDescription] = useState('');
-  const [selectedImage, setSelectedImage] = useState(null);
   const [photoUrls, setPhotoUrls] = useState([
     { url: '', file: null },
     { url: '', file: null },
@@ -29,8 +28,6 @@ function CreateMotorcycle() {
     { url: '', file: null },
   ]);
   const [errors, setErrors] = useState({});
-
-  console.log('user', user)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -223,45 +220,6 @@ function CreateMotorcycle() {
             ))}
             {errors.photoUrls && <p className='error'>{errors.photoUrls}</p>}
           </div>
-          {/* <input
-            type='url'
-            placeholder='Image URL'
-            value={photoUrls[0]}
-            onChange={(e) => addPhoto(e.target.value, 0)}
-            className="photo-input"
-          />
-          {errors.photoUrls && <p className='error'>{errors.photoUrls}</p>}
-          <input
-            type='url'
-            placeholder='Image URL'
-            value={photoUrls[1]}
-            onChange={(e) => addPhoto(e.target.value, 1)}
-            className="photo-input"
-          />
-          <input 
-            type='url'
-            placeholder='Image URL'
-            value={photoUrls[2]}
-            onChange={(e) => addPhoto(e.target.value, 2)}
-            className="photo-input"
-          />
-          <input
-            type='url'
-            placeholder='Image URL'
-            value={photoUrls[3]}
-            onChange={(e) => addPhoto(e.target.value, 3)}
-            className="photo-input"
-          />
-          <input
-            type='url'
-            placeholder='Image URL'
-            value={photoUrls[4]}
-            onChange={(e) => addPhoto(e.target.value, 4)}
-            className="photo-input"
-          />
-          <br/>
-          <br/>
-        </div> */}
         <button type='submit'>Create Motorcycle</button>
       </form>
     </main>

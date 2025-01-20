@@ -17,8 +17,6 @@ function ManageMotorcycle() {
   const reviews = useSelector((state) => state.review.reviews);
   const user = useSelector((state) => state.session.user.id)
   const userMotorcycles = motorcycles?.filter((motorcycle) => motorcycle.owner_id === user)
-  console.log("motorcycleImages", motorcycleImages)
-  console.log('reviews', reviews)
 
   const handleEdit = (id) => {
     navigate(`/editMotorcycle/${id}`)
