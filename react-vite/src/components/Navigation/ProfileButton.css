@@ -13,3 +13,25 @@
   width: 70%;
   font-size: 16px;
 }
+
+.logout-account-button:hover {
+  cursor: pointer;
+}
+
+.delete-account-button:hover {
+  cursor: pointer;
+}
+
+.login-item:hover {
+  cursor: pointer;
+}
+
+.demo-button {
+  margin-top: 5px;
+  background-color: black;
+  color: white;
+}
+
+.demo-button:hover {
+  cursor: pointer;
+}

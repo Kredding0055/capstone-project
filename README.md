@@ -1,28 +1,71 @@
-# Flask React Project
+# Project 
+## WeRide
 
-This is the starter for the Flask React project.
+# Live Demo
+[WeRide]
 
-## Getting started
+# Authors
+Keith Redding
 
-1. Clone this repository (only this branch).
+# Description
+The Motorcycle Rental Page is a web-based application designed to connect motorcycle owners with renters. The platform allows owners to add their motorcycles to the rental pool, and renters to browse and book available motorcycles.
 
-2. Install dependencies.
+# Features and Functionality
+The project includes the following features:
+User Registration: Users can create an account to rent or list their motorcycles
+Motorcycle Listings: Owners can add their motorcycles to the rental pool, including details such as:
+Make and model
+Year
+Rental price
+Location
+Booking System: Renters can book available motorcycles for a specified period
+Review System: Renters can leave reviews for motorcycles and owners
+
+## Technologies Used
+- Frontend: React, Vite, Redux
+- Backend: Flask, Python
+- Database: PostgreSQL
+- Authentication: JSON Web Tokens (JWT)
+- Hosting: render.com
+
+## Installation Guide
+
+1. Clone this repository.
+
+   ```bash
+   git clone https://github.com/Kredding0055/capstone-project.git
+   ```
+
+2. Navigate to the Directory:
+
+   ```bash
+   cd weRide-capstone-project
+   ```
+
+3. Install dependencies.
 
    ```bash
    pipenv install -r requirements.txt
    ```
 
-3. Create a __.env__ file based on the example with proper settings for your
-   development environment.
+4. Create an .env file:
 
-4. Make sure the SQLite3 database connection URL is in the __.env__ file.
+   ```bash
+   Create a .env file based on the example with proper settings for your development environment.
+   ```
 
-5. This starter organizes all tables inside the `flask_schema` schema, defined
+5. Set Up Virtual Environment:
+
+   ```bash
+   Make sure the SQLite3 database connection URL is in the .env file.
+   ```
+   
+6. This starter organizes all tables inside the `flask_schema` schema, defined
    by the `SCHEMA` environment variable.  Replace the value for
    `SCHEMA` with a unique name, **making sure you use the snake_case
    convention.**
 
-6. Get into your pipenv, migrate your database, seed your database, and run your
+7. Get into your pipenv, migrate your database, seed your database, and run your
    Flask app:
 
    ```bash
@@ -40,10 +83,6 @@ This is the starter for the Flask React project.
    ```bash
    flask run
    ```
-
-7. The React frontend has no styling applied. Copy the __.css__ files from your
-   Authenticate Me project into the corresponding locations in the
-   __react-vite__ folder to give your project a unique look.
 
 8. To run the React frontend in development, `cd` into the __react-vite__
    directory and run `npm i` to install dependencies. Next, run `npm run build`
@@ -129,4 +168,4 @@ main, always keeping it up to date.
 
 [Render.com]: https://render.com/
 [Dashboard]: https://dashboard.render.com/
-# capstone-project
+[WeRide]:(https://we-ride.onrender.com)

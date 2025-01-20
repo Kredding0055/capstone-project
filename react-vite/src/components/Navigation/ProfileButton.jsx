@@ -7,6 +7,7 @@ import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import DeleteUserModal from "../DeleteUserModal/DeleteUserModal";
+import { thunkLogin } from "../../redux/session";
 import { Link } from "react-router-dom";
 import './ProfileButton.css'; 
 
@@ -43,6 +44,11 @@ function ProfileButton() {
     closeMenu();
   };
 
+  const demoUser = () => {
+    dispatch(thunkLogin({email: 'demo@aa.io', password: 'password'}))
+    closeMenu();
+  }
+
   return (
     <>
       <FaUserCircle className="profile-button" onClick={toggleMenu} fontSize='50px'/>
@@ -76,15 +82,18 @@ function ProfileButton() {
           ) : (
             <>
               <OpenModalMenuItem
-                itemText="Log In"
+                itemText="- Log In"
+                className='login-item'
                 onItemClick={closeMenu}
                 modalComponent={<LoginFormModal />}
               />
               <OpenModalMenuItem
-                itemText="Sign Up"
+                itemText="- Sign Up"
+                className='login-item'
                 onItemClick={closeMenu}
                 modalComponent={<SignupFormModal />}
               />
+              <button className="demo-button" onClick={demoUser}>Demo Login</button>
             </>
           )}
         </ul>

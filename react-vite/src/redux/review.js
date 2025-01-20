@@ -108,9 +108,9 @@ const reviewsReducer = (state = initialState, action) => {
         delete reviews[motorcycleId];
       }
     }
+    return { reviews };
   }
-  return { reviews };
-    return state;
+  return state;
       default:
         return state
   }
