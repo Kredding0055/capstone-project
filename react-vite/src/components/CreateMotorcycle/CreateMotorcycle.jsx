@@ -62,8 +62,8 @@ function CreateMotorcycle() {
 
     let motorcycle = await dispatch(createMotorcycleThunk(motorcyclePayload));
 
-    if(motorcycle) {
-      const photoPayload = photoUrls.map((photo) => ({
+    if (motorcycle) {
+      const photoPayload = photoUrls.filter((photo) => photo.url !== '').map((photo) => ({
         motorcycleId: motorcycle.id,
         url: photo.url,
       }));

@@ -1,11 +1,11 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { motorcycleDetailsThunk } from '../../redux/motorcycle';
 import { loadMotorcycleImages } from '../../redux/motorcycleImages';
 import { motorcycleAverageRating } from '../HomePage/HomePage';
 import { addFavoriteThunk } from '../../redux/favorite';
-import { loadReviewsThunk, createReview } from '../../redux/review';
+import { createReview } from '../../redux/review';
 import { addToCartThunk } from '../../redux/shoppingCart';
 import Reviews from '../Reviews/Reviews';
 import { ImStarEmpty, ImStarFull } from 'react-icons/im';
@@ -14,6 +14,7 @@ import './MotorcycleDetails.css';
 function MotorcycleDetails() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const motorcycle = useSelector((state) => state.motorcycle[id])
   const motorcycleImages = useSelector((state) => state.motorcycleImage?.[id]);
   const reviews = useSelector((state) => state.review.reviews?.[id])
@@ -64,6 +65,7 @@ function MotorcycleDetails() {
       end_date: endDate
     }
     dispatch(addToCartThunk(cart_item))
+    navigate(`/checkout`)
   }
 
   const starFilled = (num) => {
@@ -95,7 +97,6 @@ function MotorcycleDetails() {
   useEffect(() => {
     dispatch(motorcycleDetailsThunk(id));
     dispatch(loadMotorcycleImages(id));
-    dispatch(loadReviewsThunk(id))
   }, [id, dispatch])
 
   return (
@@ -203,7 +204,7 @@ function MotorcycleDetails() {
               {numOfReviews()} &nbsp;
               {motorcycleAverageRating(reviews)}
             </div>
-            <Reviews reviews={reviews}/>
+            <Reviews id={id}/>
           </div>
         )}
       </div>

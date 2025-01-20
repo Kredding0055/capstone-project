@@ -82,16 +82,15 @@ const initialState = {}
 
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
-    // case LOAD_REVIEWS:
-    //   return { ...state, [action.id]: action.reviews };
     case LOAD_REVIEWS:
       return { ...state, reviews: { ...state.reviews, [action.id]: action.reviews } };
-    case ADD_REVIEW: {
-      if (!state.reviews) {
-        return { ...state, reviews: [action.review] };
+    case ADD_REVIEW:
+      const motorcycleId = action.review.motorcycle_id;
+      if (state.reviews[motorcycleId]) {
+        return { ...state, reviews: { ...state.reviews, [motorcycleId]: [...state.reviews[motorcycleId], action.review] } };
+      } else {
+        return { ...state, reviews: { ...state.reviews, [motorcycleId]: [action.review] } };
       }
-      return { ...state, reviews: [...state.reviews, action.review] };
-    }
     case UPDATE_REVIEW: {
       if (state.reviews) {
         const updatedReviews = state.reviews.map(review => review.id === action.review.id ? action.review : review);
@@ -99,15 +98,21 @@ const reviewsReducer = (state = initialState, action) => {
       }
       return state;
     }
-    case DELETE_REVIEW: {
-      if (state.reviews) {
-        const filteredReviews = state.reviews.filter(review => review.id !== action.id);
-        return { ...state, reviews: filteredReviews };
+    case DELETE_REVIEW:
+  const reviews = { ...state.reviews };
+  for (const motorcycleId in reviews) {
+    const filteredReviews = reviews[motorcycleId].filter(review => review.id !== action.reviewId);
+    if (reviews[motorcycleId].length !== filteredReviews.length) {
+      reviews[motorcycleId] = filteredReviews;
+      if (filteredReviews.length === 0) {
+        delete reviews[motorcycleId];
       }
-      return state;
     }
-    default:
-      return state
+  }
+  return { reviews };
+    return state;
+      default:
+        return state
   }
 }
 

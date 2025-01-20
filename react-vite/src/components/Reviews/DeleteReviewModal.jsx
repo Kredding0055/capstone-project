@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { deleteReviewThunk } from '../../redux/review';
+import { deleteReviewThunk, loadReviewsThunk } from '../../redux/review';
 import { useModal } from '../../context/Modal';
 
 
@@ -7,9 +7,12 @@ function DeleteReviewModal({ review }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 
-  const handleSubmit = async (id) => {
-    await dispatch(deleteReviewThunk(id))
-    .then(closeModal)
+  const handleSubmit = async () => {
+    await dispatch(deleteReviewThunk(review.id))
+    .then(() => {
+      dispatch(loadReviewsThunk(review.motorcycle_id));
+      closeModal();
+    })
   }
 
   return (
