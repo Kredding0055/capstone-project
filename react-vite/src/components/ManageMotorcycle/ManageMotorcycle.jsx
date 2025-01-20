@@ -15,8 +15,9 @@ function ManageMotorcycle() {
   const { motorcycles } = useSelector((state) => state.motorcycle)
   const motorcycleImages = useSelector((state) => state.motorcycleImage);
   const reviews = useSelector((state) => state.review.reviews);
-  const user = useSelector((state) => state.session.user.id)
-  const userMotorcycles = motorcycles?.filter((motorcycle) => motorcycle.owner_id === user)
+  const user = useSelector((state) => state.session.user)
+  const userId = user?.id;
+  const userMotorcycles = motorcycles?.filter((motorcycle) => motorcycle.owner_id === userId)
 
   const handleEdit = (id) => {
     navigate(`/editMotorcycle/${id}`)
@@ -39,6 +40,7 @@ function ManageMotorcycle() {
 
   return (
     <div>
+      {user ? (
       <div className='grid-container'>
         <div className="motorcycle-card-grid">
           {userMotorcycles?.map((motorcycle) => (
@@ -76,6 +78,11 @@ function ManageMotorcycle() {
           ))}
         </div>
       </div>
+      ) : (
+        <div>
+          <h2 style={{ color: 'white' }}>Please log in to manage your motorcycle listings</h2>
+        </div> 
+      )}
     </div>
   )
 }

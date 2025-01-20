@@ -13,6 +13,7 @@ function UpdateMotorcycle() {
   const { id } = useParams();
   const motorcycle = useSelector((state) => state.motorcycle?.[id])
   const motorcycleImages = useSelector((state) => state.motorcycleImage?.[id])
+  const user = useSelector((state) => state.session.user)
   const [year, setYear] = useState('');
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
@@ -147,6 +148,8 @@ function UpdateMotorcycle() {
 
   return (
     <main className='update-motorcycle-container'>
+      {user ? (
+        <>
       <h2>Update your Motorcycle</h2>
       <form onSubmit={handleSubmit} className='form-container'>
         <div className='form-group'>
@@ -259,31 +262,37 @@ function UpdateMotorcycle() {
             ))}
           </div>
           <div className="add-photos">
-  {newPhotos.map((photo, index) => (
-    <div key={index} className="photo-input-container">
-      <input
-        type='file'
-        onChange={(event) => handleImageChange(event, index, true)}
-      />
-      <button
-        type='button'
-        onClick={() => handleRemoveNewPhoto(index)}
-      >
-        Remove
-      </button>
-    </div>
-  ))}
-  <button
-    type='button'
-    onClick={addNewPhoto}
-  >
-    Add New Photo
-  </button>
-</div>
+            {newPhotos.map((photo, index) => (
+              <div key={index} className="photo-input-container">
+                <input
+                  type='file'
+                  onChange={(event) => handleImageChange(event, index, true)}
+                />
+                <button
+                  type='button'
+                  onClick={() => handleRemoveNewPhoto(index)}
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button
+              type='button'
+              onClick={addNewPhoto}
+            >
+              Add New Photo
+            </button>
+          </div>
           {errors.photoUrls && <p className='error'>{errors.photoUrls}</p>}
           </div> 
         <button type='submit'>Update Motorcycle</button>
       </form>
+      </>
+      ) : ( 
+        <div>
+          <h2>Please log in to manage your motorcycle listings</h2>
+        </div>
+      )}
     </main>
   )
 }

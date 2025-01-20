@@ -106,6 +106,8 @@ function CreateMotorcycle() {
 
   return (
     <main className='create-motorcycle-container'>
+      {user ? (
+      <>
       <h2>Add your Motorcycle</h2>
       <form onSubmit={handleSubmit} className='form-container'>
         <div className='form-group'>
@@ -222,6 +224,12 @@ function CreateMotorcycle() {
           </div>
         <button type='submit'>Create Motorcycle</button>
       </form>
+      </>
+      ) : (
+      <div>
+        <h2>Please log in to create a motorcycle listing</h2>
+      </div>
+      )}
     </main>
   )
 }

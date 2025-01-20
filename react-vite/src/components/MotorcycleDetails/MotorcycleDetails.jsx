@@ -18,6 +18,7 @@ function MotorcycleDetails() {
   const motorcycle = useSelector((state) => state.motorcycle[id])
   const motorcycleImages = useSelector((state) => state.motorcycleImage?.[id]);
   const reviews = useSelector((state) => state.review.reviews?.[id])
+  const user = useSelector((state) => state.session.user)
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -164,42 +165,45 @@ function MotorcycleDetails() {
         )}
         {motorcycle && (
           <div>
-            <div className='textarea-container'>
-              <textarea
-                placeholder='Leave a review'
-                value={review}
-                onChange={(e) => setReview(e.target.value)}
-              />
-              <br/>
-              <div className='details-star-section'>
-              {[1, 2, 3, 4, 5].map((index) => (
-                <div key={index}>
-                  {(starRating >= index || hover >= index) ? (
-                    <ImStarFull 
-                      className='details-star-rating' 
-                      onMouseEnter={() => handleHover(index)}
-                      onMouseLeave={() => handleHover(0)}
-                      onClick={() => starFilled(index)}
-                    />
-                  ) : (
-                    <ImStarEmpty 
-                      className='details-star-rating' 
-                      onMouseEnter={() => handleHover(index)}
-                      onMouseLeave={() => handleHover(0)}
-                      onClick={() => starFilled(index)}
-                    />
-                  )}
+            {user ? (
+              <div className='textarea-container'>
+                <textarea
+                  placeholder='Leave a review'
+                  value={review}
+                  onChange={(e) => setReview(e.target.value)}
+                />
+                <br/>
+                <div className='details-star-section'>
+                  {[1, 2, 3, 4, 5].map((index) => (
+                    <div key={index}>
+                      {(starRating >= index || hover >= index) ? (
+                        <ImStarFull 
+                          className='details-star-rating' 
+                          onMouseEnter={() => handleHover(index)}
+                          onMouseLeave={() => handleHover(0)}
+                          onClick={() => starFilled(index)}
+                        />
+                      ) : (
+                        <ImStarEmpty 
+                          className='details-star-rating' 
+                          onMouseEnter={() => handleHover(index)}
+                          onMouseLeave={() => handleHover(0)}
+                          onClick={() => starFilled(index)}
+                        />
+                      )}
+                    </div>
+                  ))}
+                  <h3>Stars</h3>       
                 </div>
-              ))}
-            <h3>Stars</h3>       
-          </div>
-              <button 
-                className="submit-review-button" 
-                onClick={addReview}
-                disabled={submitDisabled}
-                >Submit Review</button>
-            </div>
-            <br/>
+                <button 
+                  className="submit-review-button" 
+                  onClick={addReview}
+                  disabled={submitDisabled}
+                  >Submit Review</button>
+              </div>
+            ) : (
+              <h2>Please log in to leave a review</h2>
+            )}
             <div className='review-section'>
               {numOfReviews()} &nbsp;
               {motorcycleAverageRating(reviews)}
