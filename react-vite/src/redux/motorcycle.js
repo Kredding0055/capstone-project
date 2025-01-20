@@ -115,9 +115,15 @@ const motorcycleReducer = (state = initialState, action) => {
       newState[action.motorcycle.id] = action.motorcycle
       return newState;
     }
+    // case DELETE_MOTORCYCLE: {
+    //   const newState = { ...state }
+    //   delete newState[action.id]
+    //   return newState;
+    // }
     case DELETE_MOTORCYCLE: {
-      const newState = { ...state }
-      delete newState[action.id]
+      const newState = { ...state };
+      delete newState[action.id];
+      newState.motorcycles = newState.motorcycles.filter(motorcycle => motorcycle.id !== action.id);
       return newState;
     }
     default:

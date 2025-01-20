@@ -8,6 +8,7 @@ import SignupFormModal from "../SignupFormModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import DeleteUserModal from "../DeleteUserModal/DeleteUserModal";
 import { Link } from "react-router-dom";
+import './ProfileButton.css'; 
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -62,10 +63,11 @@ function ProfileButton() {
                 <Link to='/favorites'> - Favorited Motorcycles</Link>
               </li>
               <li>
-                <button onClick={logout}>Log Out</button>
+                <button onClick={logout} className='logout-account-button'>Log Out</button>
               </li>
               <li>
                 <OpenModalButton
+                className='delete-account-button'
                 buttonText='Delete Account'
                 modalComponent={<DeleteUserModal/>}
                 />

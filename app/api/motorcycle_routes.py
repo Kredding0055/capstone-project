@@ -97,12 +97,19 @@ def post_images(id):
   if motorcycle.owner_id != current_user.id:
     return jsonify({'error': 'Unauthorized'}), 403
   
+  # data = request.json
+  # new_image = MotorcycleImage(
+  #   motorcycle_id=id,
+  #   image_url=data['image_url']
+  # )
+  # db.session.add(new_image)
   data = request.json
-  new_image = MotorcycleImage(
-    motorcycle_id=id,
-    image_url=data['image_url']
-  )
-  db.session.add(new_image)
+  for image_data in data:
+    new_image = MotorcycleImage(
+      motorcycle_id=id,
+      image_url=image_data['url']
+    )
+    db.session.add(new_image)
   db.session.commit()
   return jsonify(new_image.to_dict()), 201
 

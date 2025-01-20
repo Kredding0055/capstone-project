@@ -149,7 +149,8 @@ function MotorcycleDetails() {
                   setEndDate(e.target.value)} 
                   disabled={!startDate}
                   />
-                <p>$ {motorcycle.price} per day</p>
+                <br/>  
+                <p>Rental: $ {motorcycle.price} per day</p>
                 <button onClick={addToCart}>Add to Cart</button>
                 <button onClick={addToFavorites}>Add to Favorites</button>
               </div>

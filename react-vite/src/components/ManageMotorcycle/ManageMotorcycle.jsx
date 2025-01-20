@@ -28,7 +28,6 @@ function ManageMotorcycle() {
     dispatch(loadAllMotorcycles())
   }, [dispatch])
 
-
   useEffect(() => {
     if (userMotorcycles) {
       userMotorcycles.forEach((motorcycle) => {
@@ -71,7 +70,7 @@ function ManageMotorcycle() {
                 <OpenModalButton 
                   motorcycle={motorcycle}
                   buttonText='Delete'
-                  modalComponent={<DeleteMotorcycleModal />}
+                  modalComponent={<DeleteMotorcycleModal motorcycle={motorcycle}/>}
                 />
               </div>
             </div>

@@ -79,7 +79,8 @@ function Shoppingcart() {
 
   return (
     <div className="shopping-cart-container">
-      <div className="cart-row">
+      {cart && motorcycle ? (
+        <div className="cart-row">
       <div className='cart-image-container'>
         {motorcycle && (
           <Link to={`/motorcycles/${motorcycle.id}`}>
@@ -117,14 +118,20 @@ function Shoppingcart() {
                 <button onClick={showAlert}>Book Reservation</button>
                 <button onClick={handleUpdateClick}>Update Dates</button>
                 <button onClick={deleteCart}>Delete Cart</button>
-              </div>
-              )}
-        </>
-        )}
+                </div>
+                )}
+              </>
+            )}
           </div>
-      </div>
+        </div>
+      ) : (
+        <div className="empty-cart-message">
+          <h2>Your cart is empty.</h2>
+          <p>Please add some items to your cart to proceed with checkout.</p>
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
 export default Shoppingcart;

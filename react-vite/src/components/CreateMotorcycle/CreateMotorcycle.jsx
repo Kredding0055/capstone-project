@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createMotorcycleThunk } from '../../redux/motorcycle';
@@ -10,6 +10,7 @@ import './CreateMotorcycle.css';
 function CreateMotorcycle() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.session.user)
   const [year, setYear] = useState('');
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
@@ -19,25 +20,33 @@ function CreateMotorcycle() {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [description, setDescription] = useState('');
-  const [photoUrls, setPhotoUrls] = useState(['','','','','']);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [photoUrls, setPhotoUrls] = useState([
+    { url: '', file: null },
+    { url: '', file: null },
+    { url: '', file: null },
+    { url: '', file: null },
+    { url: '', file: null },
+  ]);
   const [errors, setErrors] = useState({});
 
+  console.log('user', user)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
   
     const validationErrors = {};
   
-    if (!year) validationErrors.year = 'Year is required';
-    if (!make) validationErrors.make = 'Make is required';
-    if (!model) validationErrors.model = 'Model is required';
-    if (!color) validationErrors.color = 'Color is required';
-    if (!price) validationErrors.price = 'Price per day is required';
-    if (!miles) validationErrors.miles = 'Miles is required';
-    if (!city) validationErrors.city = 'City is required';
-    if (!state) validationErrors.state = 'State is required';
-    if (!description || description.length < 30) validationErrors.description = 'Description needs 30 or more characters';
-    if (!photoUrls[0]) validationErrors.photoUrls = 'Image URL is required';
+    if (!year) validationErrors.year = 'Please provide a year';
+    if (!make) validationErrors.make = 'Please provide a make';
+    if (!model) validationErrors.model = 'Please provide a model';
+    if (!color) validationErrors.color = 'Please provide a color';
+    if (!price) validationErrors.price = 'Please provide a price per day';
+    if (!miles) validationErrors.miles = 'Please provide miles';
+    if (!city) validationErrors.city = 'Please provide a city';
+    if (!state) validationErrors.state = 'Please select a state';
+    if (!description || description.length < 30) validationErrors.description = 'Please provide a description needs 30 or more characters';
+    if (!photoUrls[0]) validationErrors.photoUrls = 'Please provide at least 1 image';
   
     setErrors(validationErrors);
   
@@ -53,11 +62,18 @@ function CreateMotorcycle() {
         state,
         description,
       }
-          
+
     let motorcycle = await dispatch(createMotorcycleThunk(motorcyclePayload));
-  
+
     if(motorcycle) {
-      navigate(`/motorcycles/${motorcycle.id}`)
+      const photoPayload = photoUrls.map((photo) => ({
+        motorcycleId: motorcycle.id,
+        url: photo.url,
+      }));
+
+      await dispatch(addMotorcyleImageThunk(motorcycle.id, photoPayload)).then(() => {
+        navigate(`/motorcycles/${motorcycle.id}`);
+      });
     }
   
     reset();
@@ -77,6 +93,20 @@ function CreateMotorcycle() {
     setPhotoUrls([]);
   }
 
+  const handleImageChange = (event, index) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPhotoUrls((prevPhotoUrls) => {
+        const newPhotoUrls = [...prevPhotoUrls];
+        newPhotoUrls[index].url = reader.result;
+        newPhotoUrls[index].file = file;
+        return newPhotoUrls;
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <main className='create-motorcycle-container'>
       <h2>Add your Motorcycle</h2>
@@ -84,6 +114,8 @@ function CreateMotorcycle() {
         <div className='form-group'>
           <label>Year</label>
           <input 
+            min='1894'
+            max='2025'
             value={year}
             onChange={(e) => setYear(e.target.value)}
             type='number'
@@ -178,7 +210,20 @@ function CreateMotorcycle() {
         
         <div className='form-group'>
           <label>Photos (Add atleast 1 photo)</label>
-          <input
+            {photoUrls.map((photo, index) => (
+              <div key={index}>
+                <input
+                  type='file'
+                  onChange={(event) => handleImageChange(event, index)}
+                />
+                {photo.url && (
+                  <img src={photo.url} alt='Uploaded Image' width='100' />
+                )}
+              </div>
+            ))}
+            {errors.photoUrls && <p className='error'>{errors.photoUrls}</p>}
+          </div>
+          {/* <input
             type='url'
             placeholder='Image URL'
             value={photoUrls[0]}
@@ -216,7 +261,7 @@ function CreateMotorcycle() {
           />
           <br/>
           <br/>
-        </div>
+        </div> */}
         <button type='submit'>Create Motorcycle</button>
       </form>
     </main>
