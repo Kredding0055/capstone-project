@@ -23,8 +23,20 @@ function UpdateMotorcycle() {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [description, setDescription] = useState('');
-  const [photoUrls, setPhotoUrls] = useState([]);
-  const [newPhotos, setNewPhotos] = useState([]);
+  const [photoUrls, setPhotoUrls] = useState([
+    { url: '' },
+    { url: '' },
+    { url: '' },
+    { url: '' },
+    { url: '' },
+  ]);
+  const [newPhotos, setNewPhotos] = useState([
+    { url: '' },
+    { url: '' },
+    { url: '' },
+    { url: '' },
+    { url: '' },
+  ]);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -52,7 +64,8 @@ function UpdateMotorcycle() {
 
   const handleClickDeletePhoto = async (photoId) => {
     await dispatch(deleteMotorcycleImageThunk(motorcycle.id, photoId));
-    setPhotoUrls((prevPhotoUrls) => prevPhotoUrls ? prevPhotoUrls.filter((photo) => photo.id !== photoId) : []);
+    dispatch(loadMotorcycleImages(motorcycle.id));
+    // setPhotoUrls((prevPhotoUrls) => prevPhotoUrls ? prevPhotoUrls.filter((photo) => photo.id !== photoId) : []);
   };
 
   const handleSubmit = async (e) => {
@@ -88,9 +101,10 @@ function UpdateMotorcycle() {
           
     await dispatch(updateMotorcycleThunk(id, motorcyclePayload));
 
-    await dispatch(addMotorcyleImageThunk(id, newPhotos)).then(() => {
+    const nonEmptyNewPhotos = newPhotos.filter((photo) => photo.url !== '');
+    await dispatch(addMotorcyleImageThunk(id, nonEmptyNewPhotos)).then(() => {
       navigate(`/motorcycles/${id}`);
-    });
+    })
 
     reset();
     }
@@ -109,42 +123,24 @@ function UpdateMotorcycle() {
     setPhotoUrls([]);
   }
   
-  
-  const handleRemoveNewPhoto = (index) => {
-    setNewPhotos((prevNewPhotos) => {
-      const newNewPhotos = [...prevNewPhotos];
-      newNewPhotos.splice(index, 1);
-      return newNewPhotos;
-    });
-  };
-  
-  const addNewPhoto = () => {
-    setNewPhotos((prevNewPhotos) => [...prevNewPhotos, { url: '', file: null }]);
-  };
 
   const handleImageChange = (event, index, isNewPhoto) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      if (isNewPhoto) {
-        setNewPhotos((prevNewPhotos) => {
-          const newNewPhotos = [...prevNewPhotos];
-          newNewPhotos[index].url = reader.result;
-          newNewPhotos[index].file = file;
-          return newNewPhotos;
-        });
-      } else {
-        setPhotoUrls((prevPhotoUrls) => {
-          const newPhotoUrls = [...prevPhotoUrls];
-          newPhotoUrls[index].url = reader.result;
-          newPhotoUrls[index].file = file;
-          return newPhotoUrls;
-        });
-      }
-    };
-    reader.readAsDataURL(file);
+    const url = event.target.value;
+    if (isNewPhoto) {
+      setNewPhotos((prevNewPhotos) => {
+        const newNewPhotos = [...prevNewPhotos];
+        newNewPhotos[index].url = url;
+        return newNewPhotos;
+      });
+    } else {
+      setPhotoUrls((prevPhotoUrls) => {
+        const newPhotoUrls = [...prevPhotoUrls];
+        newPhotoUrls[index].url = url;
+        return newPhotoUrls;
+      });
+    }
   };
-  
+
 
   return (
     <main className='update-motorcycle-container'>
@@ -247,44 +243,30 @@ function UpdateMotorcycle() {
           {errors.description && <p className='error'>{errors.description}</p>}
         </div>
         <div className='form-group'>
-        <label>Photos (Add atleast 1 photo)</label>
-          <div className="current-photos">
-            {photoUrls.map((photo, index) => (
-              <div key={index} className="current-photo">
-                <img src={photo.url} alt="Current Photo" width="100" />
-                <button
-                  type='button'
-                  onClick={() => handleClickDeletePhoto(photo.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
-          </div>
-          <div className="add-photos">
-            {newPhotos.map((photo, index) => (
-              <div key={index} className="photo-input-container">
-                <input
-                  type='file'
-                  onChange={(event) => handleImageChange(event, index, true)}
-                />
-                <button
-                  type='button'
-                  onClick={() => handleRemoveNewPhoto(index)}
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-            <button
-              type='button'
-              onClick={addNewPhoto}
-            >
-              Add New Photo
-            </button>
-          </div>
+          <label>Photos (Add atleast 1 photo)</label>
+          {photoUrls.map((photo, index) => (
+            <div key={photo.id} className="current-photo">
+              <img src={photo.url} alt="Current Photo" width="100" />
+              <button
+                type='button'
+                onClick={() => handleClickDeletePhoto(photo.id)}
+              >
+                Delete
+              </button>
+            </div>
+          ))}
+          {[1, 2, 3, 4, 5].map((_, index) => (
+            <div key={index} className='photo-inputs'>
+              <input
+                type='text'
+                value={newPhotos[index] ? newPhotos[index].url : ''}
+                onChange={(event) => handleImageChange(event, index, true)}
+                placeholder='Enter image URL'
+              />
+            </div>
+          ))}
           {errors.photoUrls && <p className='error'>{errors.photoUrls}</p>}
-          </div> 
+        </div>
         <button type='submit'>Update Motorcycle</button>
       </form>
       </>
