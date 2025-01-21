@@ -75,7 +75,7 @@ def upgrade():
     op.create_table('motorcycle_images',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('motorcycle_id', sa.Integer(), nullable=False),
-    sa.Column('image_url', sa.String(length=255), nullable=False),
+    sa.Column('image_url', sa.Text(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.ForeignKeyConstraint(['motorcycle_id'], ['motorcycles.id'], ),

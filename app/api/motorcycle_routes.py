@@ -108,10 +108,9 @@ def post_images(id):
     db.session.add(new_image)
     new_images.append(new_image)
   db.session.commit()
-  if new_images:
-    return jsonify([image.to_dict() for image in new_images]), 201
-  else:
-    return jsonify({'message': 'No images added'}), 200
+  print(new_images)
+  # return jsonify(new_image.to_dict()), 201
+  return jsonify([{"id": image.id, "motorcycle_id": image.motorcycle_id, "image_url": image.image_url} for image in new_images]), 201
 
 # 3.3 DELETE /api/motorcycles/:id/images/:id - Delete an Image for a motorcycle
 @motorcycle_routes.route('/<int:motorcycle_id>/images/<int:image_id>', methods=['DELETE'])

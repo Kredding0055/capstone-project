@@ -21,11 +21,11 @@ function CreateMotorcycle() {
   const [state, setState] = useState('');
   const [description, setDescription] = useState('');
   const [photoUrls, setPhotoUrls] = useState([
-    { url: '', file: null },
-    { url: '', file: null },
-    { url: '', file: null },
-    { url: '', file: null },
-    { url: '', file: null },
+    { url: '' },
+    { url: '' },
+    { url: '' },
+    { url: '' },
+    { url: '' },
   ]);
   const [errors, setErrors] = useState({});
 
@@ -62,16 +62,14 @@ function CreateMotorcycle() {
 
     let motorcycle = await dispatch(createMotorcycleThunk(motorcyclePayload));
 
-    if (motorcycle) {
-      const photoPayload = photoUrls.filter((photo) => photo.url !== '').map((photo) => ({
-        motorcycleId: motorcycle.id,
-        url: photo.url,
-      }));
+    const photoPayload = photoUrls.filter((photo) => photo.url !== '').map((photo) => ({
+      url: photo.url,
+    }));
 
       await dispatch(addMotorcyleImageThunk(motorcycle.id, photoPayload)).then(() => {
         navigate(`/motorcycles/${motorcycle.id}`);
       });
-    }
+    
   
     reset();
     }
@@ -91,17 +89,12 @@ function CreateMotorcycle() {
   }
 
   const handleImageChange = (event, index) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPhotoUrls((prevPhotoUrls) => {
-        const newPhotoUrls = [...prevPhotoUrls];
-        newPhotoUrls[index].url = reader.result;
-        newPhotoUrls[index].file = file;
-        return newPhotoUrls;
-      });
-    };
-    reader.readAsDataURL(file);
+    const url = event.target.value;
+    setPhotoUrls((prevPhotoUrls) => {
+      const newPhotoUrls = [...prevPhotoUrls];
+      newPhotoUrls[index].url = url;
+      return newPhotoUrls;
+    });
   };
 
   return (
@@ -206,22 +199,23 @@ function CreateMotorcycle() {
           />
           {errors.description && <p className='error'>{errors.description}</p>}
         </div>
-        
         <div className='form-group'>
           <label>Photos (Add atleast 1 photo)</label>
-            {photoUrls.map((photo, index) => (
-              <div key={index}>
-                <input
-                  type='file'
-                  onChange={(event) => handleImageChange(event, index)}
-                />
-                {photo.url && (
-                  <img src={photo.url} alt='Uploaded Image' width='100' />
-                )}
-              </div>
-            ))}
-            {errors.photoUrls && <p className='error'>{errors.photoUrls}</p>}
-          </div>
+          {photoUrls.map((photo, index) => (
+            <div key={index} className='photo-inputs'>
+              <input
+                type='text'
+                value={photo.url}
+                onChange={(event) => handleImageChange(event, index)}
+                placeholder='Enter image URL'
+              />
+              {photo.url && (
+                <img src={photo.url} alt='Uploaded Image' width='100' />
+              )}
+            </div>
+          ))}
+          {errors.photoUrls && <p className='error'>{errors.photoUrls}</p>}
+        </div>
         <button type='submit'>Create Motorcycle</button>
       </form>
       </>
