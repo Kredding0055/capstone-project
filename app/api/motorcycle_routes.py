@@ -8,6 +8,7 @@ motorcycle_routes = Blueprint('motorcycles', __name__)
 @motorcycle_routes.route('', methods=['GET'])
 def get_all_motorcycles():
   motorcycles = Motorcycle.query.all()
+  db.session.commit()
   return jsonify([motorcycle.to_dict() for motorcycle in motorcycles]), 200
 
 # 1.2 GET /api/motorcycles/:id – Get Motorcycle Details
@@ -88,7 +89,7 @@ def get_motorcycle_images(id):
   return jsonify([image.to_dict() for image in motorcycle.images]), 200
 
 # 3.2 POST /api/motorcycles/:id/images - Post a new image for a motorcycle
-@motorcycle_routes.route('<int:id>/images', methods=['POST'])
+@motorcycle_routes.route('/<int:id>/images', methods=['POST'])
 @login_required
 def post_images(id):
   motorcycle = Motorcycle.query.get(id)

@@ -15,8 +15,8 @@ class Review(db.Model):
   created_at = db.Column(db.DateTime, server_default=func.now(), nullable=False)
   updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
 
-  user = db.relationship('User', back_populates='reviews')
-  motorcycle = db.relationship('Motorcycle', back_populates='reviews')
+  user = db.relationship('User', back_populates='reviews', lazy='joined')
+  motorcycle = db.relationship('Motorcycle', back_populates='reviews', lazy='joined')
 
   def to_dict(self):
      return {

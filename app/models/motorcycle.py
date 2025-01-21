@@ -19,7 +19,7 @@ class Motorcycle(db.Model):
   state = db.Column(db.Text, nullable=False)
   description = db.Column(db.Text, nullable=False)
   created_at = db.Column(db.DateTime, server_default=func.now())
-  updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
+  updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
 
 
   owner = db.relationship('User', back_populates='motorcycles', lazy=True)
