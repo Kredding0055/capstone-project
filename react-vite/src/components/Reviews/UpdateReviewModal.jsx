@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import { updateReviewThunk } from "../../redux/review";
+import { loadReviewsThunk, updateReviewThunk } from "../../redux/review";
 import { useModal } from "../../context/Modal";
 import { ImStarEmpty, ImStarFull } from "react-icons/im";
 import './UpdateReviewModal.css';
 
 
-function UpdateReviewModal({ review }) {
+function UpdateReviewModal({ review, id }) {
   const dispatch = useDispatch();
   const [currReview, setCurrReview] = useState(review.review_text);
   const [starRating, setStarRating] = useState(review.stars);
@@ -31,14 +31,15 @@ function UpdateReviewModal({ review }) {
     }
   }, [starRating, currReview])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
   
     const reviewPayload = {
       review_text: currReview,
       stars: starRating, 
     }
-      dispatch(updateReviewThunk(review.id, reviewPayload));
+      await dispatch(updateReviewThunk(review.id, reviewPayload));
+      dispatch(loadReviewsThunk(id))
       closeModal()
   } 
 

@@ -65,7 +65,6 @@ function UpdateMotorcycle() {
   const handleClickDeletePhoto = async (photoId) => {
     await dispatch(deleteMotorcycleImageThunk(motorcycle.id, photoId));
     dispatch(loadMotorcycleImages(motorcycle.id));
-    // setPhotoUrls((prevPhotoUrls) => prevPhotoUrls ? prevPhotoUrls.filter((photo) => photo.id !== photoId) : []);
   };
 
   const handleSubmit = async (e) => {
@@ -142,7 +141,6 @@ function UpdateMotorcycle() {
   };
 
   useEffect(() => {
-    // Re-render the component when photoUrls changes
   }, [photoUrls]);
 
 

@@ -43,7 +43,8 @@ function ManageMotorcycle() {
       {user ? (
       <div className='grid-container'>
         <div className="motorcycle-card-grid">
-          {userMotorcycles?.map((motorcycle) => (
+        {userMotorcycles?.length > 0 ? (
+          userMotorcycles?.map((motorcycle) => (
           <div key={motorcycle.id} className="motorcycle-card">
             <Link to={`/motorcycles/${motorcycle.id}`}>
               <div className="motorcycle-image">
@@ -75,7 +76,10 @@ function ManageMotorcycle() {
               </div>
             </div>
           </div>
-          ))}
+          ))
+        ) : (
+          <h2>No motorcycles listed. Consider adding one!</h2>
+        )}
         </div>
       </div>
       ) : (

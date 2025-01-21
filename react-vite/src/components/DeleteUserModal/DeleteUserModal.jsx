@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
-import { thunkDeleteUser } from "../../redux/session";
+import { thunkDeleteUser, thunkLogout } from "../../redux/session";
 import { useModal } from "../../context/Modal";
+import './DeleteUserModal.css';
 
 
 function DeleteUserModal() {
@@ -10,15 +11,16 @@ function DeleteUserModal() {
   const deleteUser = (e) => {
     e.preventDefault();
     dispatch(thunkDeleteUser());
+    dispatch(thunkLogout())
     closeModal();
   }
 
   return (
-    <div>
+    <div className='delete-modal-container'>
       <h2>Confirm Delete</h2>
       <p>Are you sure you want to delete your account?</p>
-      <button onClick={deleteUser}>Yes (Delete Account)</button>
-      <button onClick={closeModal}>No (Keep Account)</button>
+      <button className='delete-yes-button' onClick={deleteUser}>Yes (Delete Account)</button>
+      <button className='delete-no-button' onClick={closeModal}>No (Keep Account)</button>
     </div>
   )
 }

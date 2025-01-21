@@ -33,3 +33,8 @@
 .login-modal button:hover {
   cursor: pointer;
 }
+
+.error-message {
+  color: red;
+  justify-self: center;
+}

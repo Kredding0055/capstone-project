@@ -20,6 +20,7 @@ function FavoriteMotorcycles() {
   const removeFavorite = (id) => {
     dispatch(deleteFavoriteThunk(id))
     .then(() => {
+      dispatch(loadFavorites());
       alert('Motorcycle removed from favorites!');
     })
   }

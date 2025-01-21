@@ -92,12 +92,12 @@ const reviewsReducer = (state = initialState, action) => {
         return { ...state, reviews: { ...state.reviews, [motorcycleId]: [action.review] } };
       }
     case UPDATE_REVIEW: {
-      if (state.reviews) {
-        const updatedReviews = state.reviews.map(review => review.id === action.review.id ? action.review : review);
-        return { ...state, reviews: updatedReviews };
+      if (state.reviews && state.reviews[action.review.productId]) {
+        const updatedReviews = state.reviews[action.review.productId].map(review => review.id === action.review.id ? action.review : review);
+        return { ...state, reviews: { ...state.reviews, [action.review.productId]: updatedReviews } };
       }
       return state;
-    }
+      }
     case DELETE_REVIEW:
   const reviews = { ...state.reviews };
   for (const motorcycleId in reviews) {

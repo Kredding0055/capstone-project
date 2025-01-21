@@ -32,7 +32,6 @@ function HomePage() {
   const { motorcycles } = useSelector((state) => state.motorcycle)
   const motorcycleImages = useSelector((state) => state.motorcycleImage)
   const reviews = useSelector((state) => state.review.reviews)
-  console.log('motorcycleImages:', motorcycleImages);
 
   useEffect(() => {
     dispatch(loadAllMotorcycles());
@@ -62,7 +61,7 @@ function HomePage() {
               <div className='homepage-motorcycle-details'>
                 <div className='details-left'>
                   <p>{motorcycle.year} {motorcycle.make} {motorcycle.model}</p>
-                  <p>{motorcycle.city} {motorcycle.state}</p>
+                  <p>{motorcycle.city}, {motorcycle.state}</p>
                 </div>
                 <div className='details-right'>
                   {motorcycleAverageRating(reviews && reviews[motorcycle.id] ? reviews[motorcycle.id] : [])}         

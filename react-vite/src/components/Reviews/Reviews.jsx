@@ -12,6 +12,7 @@ function Reviews({ id}) {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);  
   const reviews = useSelector((state) => state.review.reviews?.[id])
+  console.log('reviews', reviews)
 
   useEffect(() =>{
     dispatch(loadReviewsThunk(id))
@@ -30,7 +31,7 @@ function Reviews({ id}) {
                 {review && (
                   <OpenModalButton
                     buttonText='Update Review'
-                    modalComponent={<UpdateReviewModal review={review} />}
+                    modalComponent={<UpdateReviewModal review={review} id={id} />}
                   />
                 )}
                 {review && (

@@ -36,3 +36,9 @@
 .manage-details-buttons button:hover {
   cursor: pointer;
 }
+
+.motorcycle-card-grid h2 {
+  color: white;
+  text-align: center;
+  grid-column: 1 / -1;
+}
