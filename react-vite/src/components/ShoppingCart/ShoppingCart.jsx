@@ -120,7 +120,7 @@ function Shoppingcart() {
       ) : (
         <div className="empty-cart-message">
           <h2>Your cart is empty.</h2>
-          <p>Please add some items to your cart to proceed with checkout.</p>
+          <p>Please add a motorcyc to your cart to proceed with checkout.</p>
         </div>
       )}
     </div>
