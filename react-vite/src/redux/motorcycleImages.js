@@ -70,16 +70,11 @@ const motorcycleImageReducer = (state = initialState, action) => {
       return { ...state, [action.id]: action.motorcycleImages }; }
     case ADD_MOTORCYCLE_IMAGE:
       return { ...state, [action.id]: (Array.isArray(state[action.id]) ? [...state[action.id], action.image] : [action.image]) }; 
-    // case DELETE_MOTORCYCLE_IMAGE:
-    //   return { ...state, [action.motorcycle_id]: state[action.motorcycle_id].filter(image => image.id !== action.id) };
     case DELETE_MOTORCYCLE_IMAGE:
       if (state[action.motorcycle_id]) {
-        return { 
-          ...state, 
-          [action.motorcycle_id]: state[action.motorcycle_id].filter(image => image.id !== action.id) 
-        };
+        return { ...state, [action.motorcycle_id]: state[action.motorcycle_id].filter(image => image?.id !== action.id) };
       } else {
-        return state;
+        return { ...state }; 
       }
     default:
       return state

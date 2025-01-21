@@ -141,6 +141,10 @@ function UpdateMotorcycle() {
     }
   };
 
+  useEffect(() => {
+    // Re-render the component when photoUrls changes
+  }, [photoUrls]);
+
 
   return (
     <main className='update-motorcycle-container'>
