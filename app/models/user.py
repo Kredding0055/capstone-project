@@ -23,6 +23,7 @@ class User(db.Model, UserMixin):
     favorited_motorcycles = db.relationship('Motorcycle', secondary=add_prefix_for_prod('favorites'), back_populates='favorited_by', cascade='all, delete', lazy=True)
     shopping_carts = db.relationship('ShoppingCart', back_populates='user', cascade='all, delete-orphan')
     reviews = db.relationship('Review', back_populates='user', cascade='all, delete-orphan')
+    events = db.relationship('Calendar', back_populates='owner', cascade='all, delete-orphan')
 
     @property
     def password(self):
